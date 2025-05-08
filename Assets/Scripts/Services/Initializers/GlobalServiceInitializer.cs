@@ -1,3 +1,4 @@
+using AgaveLinkCase.Level;
 using AgaveLinkCase.ServiceLocatorSystem;
 using AgaveLinkCase.Settings;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace AgaveLinkCase.Services.Initializers
         private void Awake()
         {
             ServiceLocator.Global.Register(_settingsProvider);
+            ServiceLocator.Global.Register(new LevelService());
         }
     }
 }
