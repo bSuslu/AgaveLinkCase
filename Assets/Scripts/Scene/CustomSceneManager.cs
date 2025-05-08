@@ -51,6 +51,8 @@ namespace AgaveLinkCase.Scene
                 Debug.LogWarning($"Scene '{GetSceneName(sceneKey)}' is already loading or loaded.");
                 return;
             }
+            
+            EventBus<OnBeforeSceneUnloadEvent>.Publish(new OnBeforeSceneUnloadEvent());
 
             StartCoroutine(LoadSceneAsync(sceneKey));
         }

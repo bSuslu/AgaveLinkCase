@@ -14,6 +14,19 @@ namespace AgaveLinkCase.UserLevelConfiguration
         [SerializeField] private UserLevelSettingSlider _gridWidthSlider;
         [SerializeField] private UserLevelSettingSlider _gridHeightSlider;
  
+        private EventBinding<OnBeforeSceneUnloadEvent> _loadSceneRequestEventBinding;
+
+        private void Awake()
+        {
+            _loadSceneRequestEventBinding = new EventBinding<OnBeforeSceneUnloadEvent>(OnBeforeSceneUnload);
+            EventBus<OnBeforeSceneUnloadEvent>.Subscribe(_loadSceneRequestEventBinding);
+            
+        }
+
+        private void OnDestroy()
+        {
+            EventBus<OnBeforeSceneUnloadEvent>.Unsubscribe(_loadSceneRequestEventBinding);
+        }
 
         private void Start()
         {
