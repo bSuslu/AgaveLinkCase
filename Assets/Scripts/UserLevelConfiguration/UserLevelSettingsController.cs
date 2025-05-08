@@ -1,11 +1,9 @@
 using AgaveLinkCase.Events;
 using AgaveLinkCase.EventSystem;
 using AgaveLinkCase.Level;
-using AgaveLinkCase.Scene;
 using AgaveLinkCase.ServiceLocatorSystem;
 using AgaveLinkCase.Settings;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace AgaveLinkCase.UserLevelConfiguration
 {
@@ -21,13 +19,13 @@ namespace AgaveLinkCase.UserLevelConfiguration
         {
             UserLevelConfigLimitationSettings settings = ServiceLocator.Global.Get<SettingsProvider>().UserLevelConfigLimitationSettings; // TODO: Remove>();
         
-            _targetScoreSlider.SetSlider(settings.MinTargetScore, settings.MaxTargetScore, settings.AttributeNameTargetScore);
-            _moveCountSlider.SetSlider(settings.MinMoveCount, settings.MaxMoveCount, settings.AttributeNameMoveCount);
-            _gridWidthSlider.SetSlider(settings.MinGridWidth, settings.MaxGridWidth, settings.AttributeNameGridWidth);
-            _gridHeightSlider.SetSlider(settings.MinGridHeight, settings.MaxGridHeight, settings.AttributeNameGridHeight);
+            _targetScoreSlider.SetSlider(settings.MinTargetScore, settings.MaxTargetScore, settings.LabelTargetScore);
+            _moveCountSlider.SetSlider(settings.MinMoveCount, settings.MaxMoveCount, settings.LabelMoveCount);
+            _gridWidthSlider.SetSlider(settings.MinGridWidth, settings.MaxGridWidth, settings.LabelGridWidth);
+            _gridHeightSlider.SetSlider(settings.MinGridHeight, settings.MaxGridHeight, settings.LabelGridHeight);
         }
         
-        private void OnButtonClicked()
+        private void OnBeforeSceneUnload()
         {
             LevelData levelData = new LevelData
             {

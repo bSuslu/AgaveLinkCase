@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db90a30ecc845ee9d4e243f1972db1a, type: 3}
+  m_Name: UserLevelConfigLimitationSettings
+  m_EditorClassIdentifier: 
+  <MinTargetScore>k__BackingField: 10
+  <MaxTargetScore>k__BackingField: 100
+  <LabelTargetScore>k__BackingField: Target Score
+  <MinMoveCount>k__BackingField: 10
+  <MaxMoveCount>k__BackingField: 50
+  <LabelMoveCount>k__BackingField: Move Count
+  <MinGridWidth>k__BackingField: 3
+  <MaxGridWidth>k__BackingField: 10
+  <LabelGridWidth>k__BackingField: Grid Width
+  <MinGridHeight>k__BackingField: 5
+  <MaxGridHeight>k__BackingField: 15
+  <LabelGridHeight>k__BackingField: Grid Height
