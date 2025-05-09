@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using AgaveLinkCase.Chip;
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem
+namespace AgaveLinkCase.LinkSystem
 {
     public class LinkLineDrawer : MonoBehaviour
     {
@@ -27,9 +28,9 @@ namespace AgaveLinkCase.GridSystem
             _lineRenderer.positionCount = 0;
         }
         
-        private void UpdateLine(List<Cell> cells)
+        private void UpdateLine(List<ILinkable> linkables)
         {
-            _positions = cells.ConvertAll(cell => cell.ChipEntity.transform.position).ToArray();
+            _positions = linkables.ConvertAll(linkable => linkable.Transform.position).ToArray();
             _lineRenderer.positionCount = _positions.Length;
             _lineRenderer.SetPositions(_positions);
         }
