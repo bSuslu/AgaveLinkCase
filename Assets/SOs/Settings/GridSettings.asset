@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af2af67cd6c164371975bc6d4de54650, type: 3}
   m_Name: GridSettings
   m_EditorClassIdentifier: 
-  CellSize: 2.5
+  CellSize: 2.56
   OriginPosition: {x: 0, y: 0, z: 0}
   Debug: 0
