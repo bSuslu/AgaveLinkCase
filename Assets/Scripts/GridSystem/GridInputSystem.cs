@@ -1,4 +1,6 @@
 using System;
+using AgaveLinkCase.Events;
+using AgaveLinkCase.EventSystem;
 using UnityEngine;
 
 namespace AgaveLinkCase.GridSystem
@@ -13,15 +15,37 @@ namespace AgaveLinkCase.GridSystem
         
         private Cell _activeCell;
         private Grid2D _grid2D;
-        
-        
+
+        private bool _canRead = false;
+        private EventBinding<LevelCompletedEvent> _levelCompletedEventBinding;
+
+        private void Awake()
+        {
+            _levelCompletedEventBinding = new EventBinding<LevelCompletedEvent>(OnLevelCompletedEvent);
+            EventBus<LevelCompletedEvent>.Subscribe(_levelCompletedEventBinding);
+        }
+
+        private void OnDestroy()
+        {
+            EventBus<LevelCompletedEvent>.Unsubscribe(_levelCompletedEventBinding);
+        }
+
+        private void OnLevelCompletedEvent(LevelCompletedEvent obj)
+        {
+            _canRead = false;
+        }
+
         public void Initialize(Grid2D grid2D)
         {
             _grid2D = grid2D;
+            _canRead = true;
         }
         
         private void Update()
         {
+            if (!_canRead)
+                return;
+            
             if (Input.GetMouseButton(0))
             {
                 CheckIfActiveCellChanged();

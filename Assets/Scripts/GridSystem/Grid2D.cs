@@ -85,7 +85,7 @@ namespace AgaveLinkCase.GridSystem
             return _cells[x, y];
         }
 
-        private bool IsValid(int x, int y) => x >= 0 && y >= 0 && x < Width && y < Height;
+        public bool IsValid(int x, int y) => x >= 0 && y >= 0 && x < Width && y < Height;
 
         public bool TryGetCellIndexes(Vector3 worldPosition, out Vector2Int cellIndex)
         {

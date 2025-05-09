@@ -3,9 +3,12 @@ using UnityEngine;
 namespace AgaveLinkCase.Chip
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ChipEntity : MonoBehaviour
+    public class ChipEntity : MonoBehaviour, ILinkable
     {
         [SerializeField] private SpriteRenderer _spriteRenderer;
+        public Vector2Int CellPos { get; set; }
+        public Transform Transform => transform;
+
         public ChipType Type { get; private set; }
         
         public void SetType(ChipConfig chipConfig)
@@ -19,5 +22,18 @@ namespace AgaveLinkCase.Chip
         {
             Destroy(gameObject); // TODO Pool();
         }
+        
+        public virtual bool CanBeLinkedWith(ILinkable chip)
+        {
+            return Type == chip.Type;
+        }
+    }
+
+    public interface ILinkable
+    {
+        public bool CanBeLinkedWith(ILinkable chip);
+        public ChipType Type { get; }
+        public Vector2Int CellPos { get; }
+        public Transform Transform { get; }
     }
 }

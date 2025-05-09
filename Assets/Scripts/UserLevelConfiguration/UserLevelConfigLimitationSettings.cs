@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AgaveLinkCase.Settings
+namespace AgaveLinkCase.UserLevelConfiguration
 {
     [CreateAssetMenu(fileName = "UserLevelConfigLimitationSettings", menuName = "Settings/UserLevelConfigLimitation")]
     public class UserLevelConfigLimitationSettings : ScriptableObject

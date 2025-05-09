@@ -3,6 +3,7 @@ using AgaveLinkCase.Chip;
 using AgaveLinkCase.Chip.Selection;
 using AgaveLinkCase.Helpers;
 using AgaveLinkCase.Level;
+using AgaveLinkCase.LinkSystem;
 using AgaveLinkCase.ServiceLocatorSystem;
 using AgaveLinkCase.Settings;
 using Cysharp.Threading.Tasks;
@@ -16,15 +17,18 @@ namespace AgaveLinkCase.GridSystem
         [SerializeField] private GridInputSystem _gridInputSystem;
         [SerializeField] private LinkController _linkController;
         [SerializeField] private CameraHelper _cameraHelper;
-
-        private float _fallOffset = 1.5f;
+        [SerializeField] private SpriteRenderer _cellBackgroundSpriteRenderer;
+        
         private Grid2D _grid;
-
         private ChipFactory _chipFactory;
+
+        private VisualSettings _visualSettings;
 
         private void Awake()
         {
             _linkController.OnLinkSuccess += OnLinkSuccess;
+
+            _visualSettings = ServiceLocator.Global.Get<SettingsProvider>().VisualSettings;
         }
 
         private void OnDestroy()
@@ -32,27 +36,77 @@ namespace AgaveLinkCase.GridSystem
             _linkController.OnLinkSuccess -= OnLinkSuccess;
         }
 
-        private void OnLinkSuccess(List<Cell> cells)
+        private void OnLinkSuccess(List<ILinkable> cells)
         {
             ProcessGrid(cells).Forget();
         }
 
-        private async UniTaskVoid ProcessGrid(List<Cell> cells)
+        private async UniTaskVoid ProcessGrid(List<ILinkable> linkables) //TODO LinkData class
         {
             HashSet<int> columnIndexLocks = new HashSet<int>();
+            List<Vector2Int> coords = new List<Vector2Int>();
 
-            foreach (var cell in cells)
+            foreach (var linkable in linkables)
             {
-                columnIndexLocks.Add(cell.X);
+                columnIndexLocks.Add(linkable.CellPos.x);
+                coords.Add(linkable.CellPos);
             }
 
             SetColumnLockState(columnIndexLocks, true);
 
-            await HandleCellClear(cells);
-            await HandleFill();
-            await HandleFall();
+            var cellClearHandler = new CellClearHandler(_grid, _visualSettings, coords);
+            var fillHandler = new GridFillHandler(_grid, _visualSettings);
+            var fallHandler = new GridFallHandler(_grid, _visualSettings, _chipFactory, this.transform);
+            var shuffleHandler = new ShuffleHandler(_grid, _visualSettings, coords);
+
+            var handlerList = new List<BaseGridProcessHandler>();
+            handlerList.Add(cellClearHandler);
+            handlerList.Add(fillHandler);
+            handlerList.Add(fallHandler);
+            handlerList.Add(shuffleHandler);
+            
+            for (int i = 0; i < handlerList.Count; i++)
+            {
+                await handlerList[i].HandleAsync();
+            }
 
             SetColumnLockState(columnIndexLocks, false);
+        }
+
+
+
+        private async UniTask AssignShuffledChips(List<ChipEntity> list)
+        {
+            var taskList = new List<UniTask>();
+            int i = 0;
+            for (int x = 0; x < _grid.Width; x++)
+            {
+                for (int y = 0; y < _grid.Height; y++)
+                {
+                    var cell = _grid.GetCell(x, y);
+                    var chip = list[i++];
+                    cell.SetChip(chip);
+                    taskList.Add(chip.transform
+                        .DOMove(_grid.GetWorldPositionCenter(x, y), _visualSettings.ShuffleDuration)
+                        .SetEase(_visualSettings.ShuffleEase)
+                        .ToUniTask());
+                }
+            }
+
+            await UniTask.WhenAll(taskList.ToArray());
+        }
+
+        public void ListShuffle<T>(IList<T> list)
+        {
+            System.Random rng = new System.Random();
+
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1); // 0 ≤ k ≤ n
+                (list[n], list[k]) = (list[k], list[n]); // Swap
+            }
         }
 
         private void Start()
@@ -61,12 +115,22 @@ namespace AgaveLinkCase.GridSystem
             GridSettings gridSettings = ServiceLocator.Global.Get<SettingsProvider>().GridSettings;
 
             _grid = new GridFactory().Create(gridSettings, levelData);
-
+            ConstructGridBackground();
             CreateChips();
 
             _gridInputSystem.Initialize(_grid);
             _cameraHelper.HandleGridFrustum(_grid.GetWorldPosition(0, 0),
                 _grid.GetWorldPosition(_grid.Width, _grid.Height));
+        }
+
+        // TODO: Dependent to grid settings, fix it
+        private void ConstructGridBackground()
+        {
+            var background = Instantiate(_cellBackgroundSpriteRenderer, transform);
+            var maxPoint = _grid.GetWorldPosition(_grid.Width, _grid.Height);
+            var minPoint = _grid.GetWorldPosition(0, 0);
+            background.gameObject.transform.position = (maxPoint - minPoint) / 2f;
+            background.size = new Vector2(_grid.Width * _grid.CellSize, _grid.Height * _grid.CellSize);
         }
 
         private void CreateChips()
@@ -85,74 +149,7 @@ namespace AgaveLinkCase.GridSystem
             }
         }
 
-        private async UniTask HandleCellClear(List<Cell> cells)
-        {
-            foreach (var cell in cells)
-            {
-                await UniTask.Delay(100);
-                cell.DestroyChip();
-            }
-        }
 
-        private async UniTask HandleFall()
-        {
-            for (int x = 0; x < _grid.Width; x++)
-            {
-                for (int y = 0; y < _grid.Height; y++)
-                {
-                    Cell cell = _grid.GetCell(x, y);
-                    if (!cell.IsOccupied)
-                    {
-                        Vector3 position = _grid.GetWorldPositionCenter(x, y);
-
-                        ChipEntity newChipEntity = _chipFactory.Create(position, transform);
-                        cell.SetChip(newChipEntity);
-
-                        // Animate falling into place
-                        newChipEntity.transform.position =
-                            _grid.GetWorldPositionCenter(x, y) + Vector3.up * _fallOffset;
-                        newChipEntity.transform.DOMove(_grid.GetWorldPositionCenter(x, y), 0.25f);
-                    }
-                }
-            }
-        }
-
-        private async UniTask HandleFill()
-        {
-            List<UniTask> tasks = new List<UniTask>();
-            HashSet<int> columnIndexLocks = new HashSet<int>();
-
-            for (int x = 0; x < _grid.Width; x++)
-            {
-                for (int y = 0; y < _grid.Height; y++)
-                {
-                    Cell currentCell = _grid.GetCell(x, y);
-                    if (currentCell.IsOccupied)
-                        continue;
-
-                    for (int k = y + 1; k < _grid.Height; k++)
-                    {
-                        Cell upperCell = _grid.GetCell(x, k);
-                        if (!upperCell.IsOccupied)
-                            continue;
-
-                        columnIndexLocks.Add(x);
-
-                        ChipEntity fallingChipEntity = upperCell.ChipEntity;
-                        upperCell.SetChip(null);
-                        currentCell.SetChip(fallingChipEntity);
-
-                        tasks.Add(fallingChipEntity.transform.DOMove(_grid.GetWorldPositionCenter(x, y), .25f)
-                            .ToUniTask());
-
-                        break;
-                    }
-                }
-            }
-
-
-            await UniTask.Delay(1000);
-        }
 
         private void SetColumnLockState(HashSet<int> columns, bool isLocked)
         {

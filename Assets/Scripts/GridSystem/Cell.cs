@@ -24,14 +24,17 @@ namespace AgaveLinkCase.GridSystem
             ChipEntity = null;
         }
 
-        public void SetChip(ChipEntity chipEntity)
+        public void SetChip(ChipEntity newChip)
         {
-            if (ChipEntity != null && chipEntity != null)
+            if (ChipEntity != null && newChip != null)
             {
                 Debug.LogError("Cell.SetChip: ChipEntity already set");
             }
-
-            ChipEntity = chipEntity;
+            
+            if (newChip != null)
+                newChip.CellPos = new Vector2Int(X, Y);
+            
+            ChipEntity = newChip;
         }
 
         public void Lock(bool isLocked = true)
