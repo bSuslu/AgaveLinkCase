@@ -9,6 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcc5413554994070ab823fc6f3ca42b6, type: 3}
+  m_Script: {fileID: 11500000, guid: 836426fe78944ab7a4531b43539a99ac, type: 3}
   m_Name: OrthogonalNeighbourLinkCondition
   m_EditorClassIdentifier: 
+  <Directions>k__BackingField:
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}
+  - {x: 1, y: 0}
+  - {x: -1, y: 0}

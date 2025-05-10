@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GridSettings
   m_EditorClassIdentifier: 
   CellSize: 2.56
-  OriginPosition: {x: 0, y: 0, z: 0}
-  Debug: 0
+  <OriginPosition>k__BackingField: {x: 0, y: 0, z: 0}
+  <Debug>k__BackingField: 1

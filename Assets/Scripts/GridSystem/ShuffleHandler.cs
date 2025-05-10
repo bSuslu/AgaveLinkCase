@@ -30,6 +30,7 @@ namespace AgaveLinkCase.GridSystem
                 await Shuffle();
             }
         }
+        
         public bool IsLinkExist()
         {
             var conditions = ServiceLocator.Global.Get<SettingsProvider>().LinkSettings.LinkConditions.ToList();
@@ -64,7 +65,7 @@ namespace AgaveLinkCase.GridSystem
         }
 
         private void DFS(Grid2D grid, Vector2Int pos, ILinkable? prev, HashSet<Vector2Int> visited,
-            HashSet<Vector2Int> chain, List<BaseLinkCondition> conditions)
+            HashSet<Vector2Int> chain, List<LinkNeighbourCondition> conditions)
         {
             if (!grid.IsValid(pos.x, pos.y) || visited.Contains(pos))
                 return;
@@ -72,16 +73,14 @@ namespace AgaveLinkCase.GridSystem
             var cell = grid.GetCell(pos.x, pos.y);
             if (!cell.IsOccupied || cell.ChipEntity is not ILinkable current)
                 return;
-
-            // Eğer prev varsa, onunla bağlantı kontrolü yap
+            
             if (prev != null && !conditions.All(c => c.AreMet(prev, current)))
                 return;
 
             visited.Add(pos);
             chain.Add(pos);
 
-            Vector2Int[] dirs =
-                { new(0, 1), new(1, 0), new(0, -1), new(-1, 0), new(1, 1), new(1, -1), new(-1, 1), new(-1, -1) };
+            Vector2Int[] dirs = { new(0, 1), new(1, 0), new(0, -1), new(-1, 0), new(1, 1), new(1, -1), new(-1, 1), new(-1, -1) };
 
             foreach (var dir in dirs)
             {
@@ -89,6 +88,7 @@ namespace AgaveLinkCase.GridSystem
                 DFS(grid, nextPos, current, visited, chain, conditions);
             }
         }
+        
         private async UniTask Shuffle()
         {
             do

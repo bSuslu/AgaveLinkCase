@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AgaveLinkCase.LinkSystem.Conditions
 {
-    public abstract class BaseLinkCondition : ScriptableObject
+    public abstract class LinkCondition : ScriptableObject
     {
         public abstract bool AreMet(ILinkable linkableA, ILinkable linkableB);
     }

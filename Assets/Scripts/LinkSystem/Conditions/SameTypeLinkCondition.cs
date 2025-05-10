@@ -4,7 +4,7 @@ using UnityEngine;
 namespace AgaveLinkCase.LinkSystem.Conditions
 {
     [CreateAssetMenu(fileName = "SameTypeLinkCondition", menuName = "LinkConditions/SameType")]
-    public class SameTypeLinkCondition : BaseLinkCondition
+    public class SameTypeLinkCondition : LinkCondition
     {
         public override bool AreMet(ILinkable linkableA, ILinkable linkableB)
         {
