@@ -36,16 +36,15 @@ namespace AgaveLinkCase.Scene
         {
             _canvasGroup.blocksRaycasts = true;
             _canvasGroup.interactable = true;
-            await _canvasGroup.DOFade(1f, _fadeDuration).ToUniTask();
+            _canvasGroup.alpha = 1f;
         }
 
         private async void OnTransitionCompleted(SceneTransitionCompletedEvent _)
         {
+            await UniTask.Delay(200); 
             await _canvasGroup.DOFade(0f, _fadeDuration).ToUniTask();
             _canvasGroup.blocksRaycasts = false;
             _canvasGroup.interactable = false;
         }
     }
-
-    
 }

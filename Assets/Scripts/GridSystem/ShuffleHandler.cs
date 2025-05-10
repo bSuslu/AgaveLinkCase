@@ -64,11 +64,13 @@ namespace AgaveLinkCase.GridSystem
 
                     if (chain.Count >= _minLinkLength)
                     {
+                        Debug.Log("Link found");
                         return true;
                     }
                 }
             }
 
+            Debug.Log("Link not found");
             return false;
         }
 
