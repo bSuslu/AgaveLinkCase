@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using AgaveLinkCase.Chip;
 using AgaveLinkCase.Chip.Selection;
 using AgaveLinkCase.Helpers;
-using AgaveLinkCase.Level;
+using AgaveLinkCase.LevelSystem;
 using AgaveLinkCase.LinkSystem;
 using AgaveLinkCase.ServiceLocatorSystem;
 using AgaveLinkCase.Settings;
@@ -65,9 +65,9 @@ namespace AgaveLinkCase.GridSystem
             handlerList.Add(fallHandler);
             handlerList.Add(shuffleHandler);
             
-            for (int i = 0; i < handlerList.Count; i++)
+            foreach (var handler in handlerList)
             {
-                await handlerList[i].HandleAsync();
+                await handler.HandleAsync();
             }
 
             SetColumnLockState(columnIndexLocks, false);

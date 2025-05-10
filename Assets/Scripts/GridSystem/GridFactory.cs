@@ -1,4 +1,4 @@
-using AgaveLinkCase.Level;
+using AgaveLinkCase.LevelSystem;
 using UnityEngine;
 
 namespace AgaveLinkCase.GridSystem

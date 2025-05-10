@@ -1,4 +1,4 @@
-namespace AgaveLinkCase.Level
+namespace AgaveLinkCase.LevelSystem
 {
     public class LevelService
     {

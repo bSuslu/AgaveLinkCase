@@ -2,7 +2,7 @@ using AgaveLinkCase.EventSystem;
 
 namespace AgaveLinkCase.Events
 {
-    public class LinkCollectedEvent : IEvent
+    public struct LinkCollectedEvent : IEvent
     {
         public int Count { get; }
 

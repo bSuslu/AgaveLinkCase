@@ -2,7 +2,7 @@ using AgaveLinkCase.ServiceLocatorSystem;
 using TMPro;
 using UnityEngine;
 
-namespace AgaveLinkCase.Level
+namespace AgaveLinkCase.LevelSystem
 {
     public class LevelProgressUI : MonoBehaviour
     {

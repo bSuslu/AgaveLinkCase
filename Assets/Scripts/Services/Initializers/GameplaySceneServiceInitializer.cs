@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using AgaveLinkCase.Level;
+using AgaveLinkCase.LevelSystem;
 using AgaveLinkCase.ServiceLocatorSystem;
 using UnityEngine;
 

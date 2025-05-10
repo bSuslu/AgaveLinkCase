@@ -3,7 +3,7 @@ using AgaveLinkCase.Scene;
 
 namespace AgaveLinkCase.Events
 {
-    public class LoadSceneRequestEvent : IEvent
+    public struct LoadSceneRequestEvent : IEvent
     {
         public GameScene Scene { get; set; }
         
