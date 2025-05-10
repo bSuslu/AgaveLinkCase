@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using AgaveLinkCase.Events;
 using AgaveLinkCase.EventSystem;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,14 +34,14 @@ namespace AgaveLinkCase.Scene
             LoadScene(loadSceneRequestEvent.Scene);
         }
 
-        private void Start()
+        private async void Start()
         {
-            LoadFirstScene();
+            await LoadFirstScene();
         }
 
-        private void LoadFirstScene()
+        private async UniTask LoadFirstScene()
         {
-            LoadScene(_firstSceneToLoad);
+            await LoadSceneAsync(_firstSceneToLoad);
         }
 
         private void LoadScene(GameScene sceneKey)
@@ -54,10 +54,10 @@ namespace AgaveLinkCase.Scene
             
             EventBus<OnBeforeSceneUnloadEvent>.Publish(new OnBeforeSceneUnloadEvent());
 
-            StartCoroutine(LoadSceneAsync(sceneKey));
+            LoadSceneAsync(sceneKey).Forget();
         }
 
-        private IEnumerator LoadSceneAsync(GameScene sceneKey)
+        private async UniTask LoadSceneAsync(GameScene sceneKey)
         {
             _isLoading = true;
             string sceneName = GetSceneName(sceneKey);
@@ -67,13 +67,10 @@ namespace AgaveLinkCase.Scene
             {
                 Debug.LogError($"[Scene Error] Failed to load scene '{sceneName}'.");
                 _isLoading = false;
-                yield break;
+                return;
             }
 
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
+            await asyncLoad.ToUniTask();
 
             _currentScene = sceneKey;
             CleanupScenes(sceneKey);
