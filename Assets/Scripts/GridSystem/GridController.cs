@@ -36,6 +36,20 @@ namespace AgaveLinkCase.GridSystem
             _linkController.OnLinkSuccess -= OnLinkSuccess;
         }
 
+        private void Start()
+        {
+            LevelData levelData = ServiceLocator.Global.Get<LevelService>().LevelData;
+            GridSettings gridSettings = ServiceLocator.Global.Get<SettingsProvider>().GridSettings;
+
+            _grid = new GridFactory().Create(gridSettings, levelData);
+            ConstructGridBackground();
+            CreateChips();
+
+            _gridInputSystem.Initialize(_grid);
+            _cameraHelper.HandleGridFrustum(_grid.GetWorldPosition(0, 0),
+                _grid.GetWorldPosition(_grid.Width, _grid.Height));
+        }
+        
         private void OnLinkSuccess(List<ILinkable> cells)
         {
             ProcessGrid(cells).Forget();
@@ -72,57 +86,7 @@ namespace AgaveLinkCase.GridSystem
 
             SetColumnLockState(columnIndexLocks, false);
         }
-
-
-
-        private async UniTask AssignShuffledChips(List<ChipEntity> list)
-        {
-            var taskList = new List<UniTask>();
-            int i = 0;
-            for (int x = 0; x < _grid.Width; x++)
-            {
-                for (int y = 0; y < _grid.Height; y++)
-                {
-                    var cell = _grid.GetCell(x, y);
-                    var chip = list[i++];
-                    cell.SetChip(chip);
-                    taskList.Add(chip.transform
-                        .DOMove(_grid.GetWorldPositionCenter(x, y), _visualSettings.ShuffleDuration)
-                        .SetEase(_visualSettings.ShuffleEase)
-                        .ToUniTask());
-                }
-            }
-
-            await UniTask.WhenAll(taskList.ToArray());
-        }
-
-        public void ListShuffle<T>(IList<T> list)
-        {
-            System.Random rng = new System.Random();
-
-            int n = list.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1); // 0 ≤ k ≤ n
-                (list[n], list[k]) = (list[k], list[n]); // Swap
-            }
-        }
-
-        private void Start()
-        {
-            LevelData levelData = ServiceLocator.Global.Get<LevelService>().LevelData;
-            GridSettings gridSettings = ServiceLocator.Global.Get<SettingsProvider>().GridSettings;
-
-            _grid = new GridFactory().Create(gridSettings, levelData);
-            ConstructGridBackground();
-            CreateChips();
-
-            _gridInputSystem.Initialize(_grid);
-            _cameraHelper.HandleGridFrustum(_grid.GetWorldPosition(0, 0),
-                _grid.GetWorldPosition(_grid.Width, _grid.Height));
-        }
-
+        
         // TODO: Dependent to grid settings, fix it
         private void ConstructGridBackground()
         {
@@ -148,9 +112,7 @@ namespace AgaveLinkCase.GridSystem
                 }
             }
         }
-
-
-
+        
         private void SetColumnLockState(HashSet<int> columns, bool isLocked)
         {
             foreach (var x in columns)

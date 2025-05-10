@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AgaveLinkCase.ServiceLocatorSystem 
+namespace AgaveLinkCase.ServiceLocatorSystem
 {
     [AddComponentMenu("ServiceLocator/ServiceLocator Global")]
     public class ServiceLocatorGlobal : Bootstrapper

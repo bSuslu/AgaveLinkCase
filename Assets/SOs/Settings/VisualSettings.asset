@@ -20,5 +20,5 @@ MonoBehaviour:
   _chipDisappearDuration: 0.25
   _chipDisappearIntervalMS: 50
   _chipDisappearEase: 1
-  _shuffleDuration: 1
+  _shuffleDuration: 0.5
   _shuffleEase: 1

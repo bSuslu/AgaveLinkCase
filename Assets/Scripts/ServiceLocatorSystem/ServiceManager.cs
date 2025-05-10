@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AgaveLinkCase.ServiceLocatorSystem 
+namespace AgaveLinkCase.ServiceLocatorSystem
 {
     public class ServiceManager
     {

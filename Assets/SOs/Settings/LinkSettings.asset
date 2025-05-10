@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: LinkSettings
   m_EditorClassIdentifier: 
   <LinkConditions>k__BackingField:
-  - {fileID: 11400000, guid: ea5762a3ce6a14fada52b0b00d6668fb, type: 2}
+  - {fileID: 11400000, guid: 41b9c687935ed4adcb2baf6f481cd9c8, type: 2}
   - {fileID: 11400000, guid: 72255a43457e2451dad4759a7384bbac, type: 2}
-  <MinLinkLength>k__BackingField: 1
+  <MinLinkLength>k__BackingField: 3

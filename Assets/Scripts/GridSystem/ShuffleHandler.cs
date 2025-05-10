@@ -12,16 +12,14 @@ namespace AgaveLinkCase.GridSystem
 {
     public class ShuffleHandler : BaseGridProcessHandler
     {
-        private Grid2D _grid;
-        private VisualSettings _visualSettings;
-        private List<Vector2Int> _coords = new List<Vector2Int>();
-        private int _minLinkLength;
+        private readonly Grid2D _grid;
+        private readonly VisualSettings _visualSettings;
+        private readonly int _minLinkLength;
 
         public ShuffleHandler(Grid2D grid, VisualSettings visualSettings, List<Vector2Int> coords)
         {
             _grid = grid;
             _visualSettings = visualSettings;
-            _coords = coords;
             _minLinkLength = ServiceLocator.Global.Get<SettingsProvider>().LinkSettings.MinLinkLength;
         }
 
@@ -110,7 +108,8 @@ namespace AgaveLinkCase.GridSystem
                 await AssignShuffledChips(list);
             } while (!IsLinkExist());
         }
-        public void ListShuffle<T>(IList<T> list)
+
+        private void ListShuffle<T>(IList<T> list)
         {
             System.Random rng = new System.Random();
 
