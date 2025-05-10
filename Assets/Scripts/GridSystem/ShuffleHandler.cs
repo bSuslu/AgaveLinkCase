@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using AgaveLinkCase.Chip;
+using AgaveLinkCase.Extensions;
+using AgaveLinkCase.LinkSystem;
 using AgaveLinkCase.LinkSystem.Conditions;
 using AgaveLinkCase.ServiceLocatorSystem;
 using AgaveLinkCase.Settings;
@@ -16,11 +18,19 @@ namespace AgaveLinkCase.GridSystem
         private readonly VisualSettings _visualSettings;
         private readonly int _minLinkLength;
 
+        private readonly List<LinkCondition> _conditions;
+        private readonly Vector2Int[] _directions;
+
         public ShuffleHandler(Grid2D grid, VisualSettings visualSettings, List<Vector2Int> coords)
         {
             _grid = grid;
             _visualSettings = visualSettings;
             _minLinkLength = ServiceLocator.Global.Get<SettingsProvider>().LinkSettings.MinLinkLength;
+
+            var linkSettings = ServiceLocator.Global.Get<SettingsProvider>().LinkSettings;
+            _conditions = linkSettings.LinkConditions.ToList();
+            var neighbourCondition = _conditions.OfType<LinkNeighbourCondition>().FirstOrDefault();
+            _directions = neighbourCondition?.Directions ?? linkSettings.DefaultAnyNeighbourCondition.Directions;
         }
 
         public override async UniTask HandleAsync()
@@ -30,10 +40,9 @@ namespace AgaveLinkCase.GridSystem
                 await Shuffle();
             }
         }
-        
+
         public bool IsLinkExist()
         {
-            var conditions = ServiceLocator.Global.Get<SettingsProvider>().LinkSettings.LinkConditions.ToList();
             int width = _grid.Width;
             int height = _grid.Height;
             var visited = new HashSet<Vector2Int>();
@@ -52,7 +61,7 @@ namespace AgaveLinkCase.GridSystem
                         continue;
 
                     var chain = new HashSet<Vector2Int>();
-                    DFS(_grid, pos, null, visited, chain, conditions);
+                    DFS(_grid, pos, null, visited, chain);
 
                     if (chain.Count >= _minLinkLength)
                     {
@@ -65,7 +74,7 @@ namespace AgaveLinkCase.GridSystem
         }
 
         private void DFS(Grid2D grid, Vector2Int pos, ILinkable? prev, HashSet<Vector2Int> visited,
-            HashSet<Vector2Int> chain, List<LinkNeighbourCondition> conditions)
+            HashSet<Vector2Int> chain)
         {
             if (!grid.IsValid(pos.x, pos.y) || visited.Contains(pos))
                 return;
@@ -73,22 +82,20 @@ namespace AgaveLinkCase.GridSystem
             var cell = grid.GetCell(pos.x, pos.y);
             if (!cell.IsOccupied || cell.ChipEntity is not ILinkable current)
                 return;
-            
-            if (prev != null && !conditions.All(c => c.AreMet(prev, current)))
+
+            if (prev != null && !_conditions.All(c => c.AreMet(prev, current)))
                 return;
 
             visited.Add(pos);
             chain.Add(pos);
 
-            Vector2Int[] dirs = { new(0, 1), new(1, 0), new(0, -1), new(-1, 0), new(1, 1), new(1, -1), new(-1, 1), new(-1, -1) };
-
-            foreach (var dir in dirs)
+            foreach (var dir in _directions)
             {
                 var nextPos = pos + dir;
-                DFS(grid, nextPos, current, visited, chain, conditions);
+                DFS(grid, nextPos, current, visited, chain);
             }
         }
-        
+
         private async UniTask Shuffle()
         {
             do
@@ -121,6 +128,7 @@ namespace AgaveLinkCase.GridSystem
                 (list[n], list[k]) = (list[k], list[n]); // Swap
             }
         }
+
         private async UniTask AssignShuffledChips(List<ChipEntity> list)
         {
             var taskList = new List<UniTask>();

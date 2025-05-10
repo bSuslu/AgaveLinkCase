@@ -1,3 +1,4 @@
+using AgaveLinkCase.LinkSystem;
 using UnityEngine;
 
 namespace AgaveLinkCase.Chip
@@ -27,13 +28,5 @@ namespace AgaveLinkCase.Chip
         {
             return Type == chip.Type;
         }
-    }
-
-    public interface ILinkable
-    {
-        public bool CanBeLinkedWith(ILinkable chip);
-        public ChipType Type { get; }
-        public Vector2Int CellPos { get; }
-        public Transform Transform { get; }
     }
 }

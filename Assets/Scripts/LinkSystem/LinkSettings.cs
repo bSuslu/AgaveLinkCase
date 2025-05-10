@@ -6,7 +6,10 @@ namespace AgaveLinkCase.LinkSystem
     [CreateAssetMenu(fileName = "LinkSettings", menuName = "Settings/Link")]
     public class LinkSettings : ScriptableObject
     {
-        [field: SerializeField] public LinkNeighbourCondition[] LinkConditions { get; private set; }
+        
+        [field: SerializeField] public LinkCondition[] LinkConditions { get; private set; }
+        [field: SerializeField] public LinkNeighbourCondition DefaultAnyNeighbourCondition { get; private set; }
+        
         [field: SerializeField] public int MinLinkLength { get; private set; }
         
     }

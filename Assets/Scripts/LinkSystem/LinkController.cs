@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AgaveLinkCase.Chip;
 using AgaveLinkCase.GridSystem;
 using AgaveLinkCase.LinkSystem.Conditions;
 using AgaveLinkCase.ServiceLocatorSystem;
@@ -13,7 +12,7 @@ namespace AgaveLinkCase.LinkSystem
     public class LinkController : MonoBehaviour
     {
         [SerializeField] private GridInputSystem _gridInputSystem;
-        private LinkNeighbourCondition[] _linkCreateConditions;
+        private LinkCondition[] _linkCreateConditions;
         public event Action<List<ILinkable>> OnLinkSuccess;
         public event Action OnLinkReset;
         public event Action<List<ILinkable>> OnLinkUpdated;
