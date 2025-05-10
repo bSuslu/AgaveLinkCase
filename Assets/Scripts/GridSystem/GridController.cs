@@ -71,7 +71,7 @@ namespace AgaveLinkCase.GridSystem
             var cellClearHandler = new CellClearHandler(_grid, _visualSettings, coords);
             var fillHandler = new GridFillHandler(_grid, _visualSettings);
             var fallHandler = new GridFallHandler(_grid, _visualSettings, _chipFactory, this.transform);
-            var shuffleHandler = new ShuffleHandler(_grid, _visualSettings, coords);
+            var shuffleHandler = new ShuffleHandler(_grid, _visualSettings);
 
             var handlerList = new List<BaseGridProcessHandler>();
             handlerList.Add(cellClearHandler);

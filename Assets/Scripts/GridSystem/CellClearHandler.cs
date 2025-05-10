@@ -10,9 +10,9 @@ namespace AgaveLinkCase.GridSystem
 {
     public class CellClearHandler : BaseGridProcessHandler
     {
-        private Grid2D _grid;
-        private VisualSettings _visualSettings;
-        private List<Vector2Int> _coords = new List<Vector2Int>();
+        private readonly Grid2D _grid;
+        private readonly VisualSettings _visualSettings;
+        private readonly List<Vector2Int> _coords;
 
         public CellClearHandler(Grid2D grid, VisualSettings visualSettings, List<Vector2Int> coords)
         {

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AgaveLinkCase.Chip;
-using AgaveLinkCase.Extensions;
 using AgaveLinkCase.LinkSystem;
 using AgaveLinkCase.LinkSystem.Conditions;
 using AgaveLinkCase.ServiceLocatorSystem;
@@ -21,7 +20,7 @@ namespace AgaveLinkCase.GridSystem
         private readonly List<LinkCondition> _conditions;
         private readonly Vector2Int[] _directions;
 
-        public ShuffleHandler(Grid2D grid, VisualSettings visualSettings, List<Vector2Int> coords)
+        public ShuffleHandler(Grid2D grid, VisualSettings visualSettings)
         {
             _grid = grid;
             _visualSettings = visualSettings;
@@ -51,9 +50,9 @@ namespace AgaveLinkCase.GridSystem
             {
                 for (int x = 0; x < width; x++)
                 {
-                    var pos = new Vector2Int(x, y);
+                    var position = new Vector2Int(x, y);
 
-                    if (visited.Contains(pos))
+                    if (visited.Contains(position))
                         continue;
 
                     var cell = _grid.GetCell(x, y);
@@ -61,7 +60,7 @@ namespace AgaveLinkCase.GridSystem
                         continue;
 
                     var chain = new HashSet<Vector2Int>();
-                    DFS(_grid, pos, null, visited, chain);
+                    DepthFirstSearch(_grid, position, null, visited, chain, null);
 
                     if (chain.Count >= _minLinkLength)
                     {
@@ -73,26 +72,29 @@ namespace AgaveLinkCase.GridSystem
             return false;
         }
 
-        private void DFS(Grid2D grid, Vector2Int pos, ILinkable? prev, HashSet<Vector2Int> visited,
-            HashSet<Vector2Int> chain)
+        private void DepthFirstSearch(Grid2D grid2D, Vector2Int position, ILinkable? previous, HashSet<Vector2Int> visited,
+            HashSet<Vector2Int> chain, Vector2Int? incomingDirection = null)
         {
-            if (!grid.IsValid(pos.x, pos.y) || visited.Contains(pos))
+            if (!grid2D.IsValid(position.x, position.y) || visited.Contains(position))
                 return;
 
-            var cell = grid.GetCell(pos.x, pos.y);
+            var cell = grid2D.GetCell(position.x, position.y);
             if (!cell.IsOccupied || cell.ChipEntity is not ILinkable current)
                 return;
 
-            if (prev != null && !_conditions.All(c => c.AreMet(prev, current)))
+            if (previous != null && !_conditions.All(c => c.AreMet(previous, current)))
                 return;
 
-            visited.Add(pos);
-            chain.Add(pos);
+            visited.Add(position);
+            chain.Add(position);
 
-            foreach (var dir in _directions)
+            foreach (var direction in _directions)
             {
-                var nextPos = pos + dir;
-                DFS(grid, nextPos, current, visited, chain);
+                if (incomingDirection.HasValue && direction == -incomingDirection.Value)
+                    continue;
+
+                var nextPosition = position + direction;
+                DepthFirstSearch(grid2D, nextPosition, current, visited, chain, direction);
             }
         }
 
@@ -100,19 +102,19 @@ namespace AgaveLinkCase.GridSystem
         {
             do
             {
-                var list = new List<ChipEntity>();
+                var chipList = new List<ChipEntity>();
                 for (int x = 0; x < _grid.Width; x++)
                 {
                     for (int y = 0; y < _grid.Height; y++)
                     {
                         var cell = _grid.GetCell(x, y);
-                        list.Add(cell.ChipEntity);
+                        chipList.Add(cell.ChipEntity);
                         cell.SetChip(null);
                     }
                 }
 
-                ListShuffle(list);
-                await AssignShuffledChips(list);
+                ListShuffle(chipList);
+                await AssignShuffledChips(chipList);
             } while (!IsLinkExist());
         }
 
@@ -129,16 +131,16 @@ namespace AgaveLinkCase.GridSystem
             }
         }
 
-        private async UniTask AssignShuffledChips(List<ChipEntity> list)
+        private async UniTask AssignShuffledChips(List<ChipEntity> chipList)
         {
             var taskList = new List<UniTask>();
-            int i = 0;
+            int index = 0;
             for (int x = 0; x < _grid.Width; x++)
             {
                 for (int y = 0; y < _grid.Height; y++)
                 {
                     var cell = _grid.GetCell(x, y);
-                    var chip = list[i++];
+                    var chip = chipList[index++];
                     cell.SetChip(chip);
                     taskList.Add(chip.transform
                         .DOMove(_grid.GetWorldPositionCenter(x, y), _visualSettings.ShuffleDuration)
