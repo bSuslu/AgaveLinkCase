@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using AgaveLinkCase.Events;
 using AgaveLinkCase.EventSystem;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +10,7 @@ namespace AgaveLinkCase.Scene
     public class CustomSceneManager : MonoBehaviour
     {
         [SerializeField] private GameScene _firstSceneToLoad;
+        
         private GameScene _currentScene;
         private bool _isLoading;
         private readonly HashSet<string> _cachedSceneNames = new();
@@ -60,6 +61,9 @@ namespace AgaveLinkCase.Scene
         private async UniTask LoadSceneAsync(GameScene sceneKey)
         {
             _isLoading = true;
+
+            EventBus<SceneTransitionStartedEvent>.Publish(new SceneTransitionStartedEvent());
+
             string sceneName = GetSceneName(sceneKey);
 
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -67,6 +71,8 @@ namespace AgaveLinkCase.Scene
             {
                 Debug.LogError($"[Scene Error] Failed to load scene '{sceneName}'.");
                 _isLoading = false;
+
+                EventBus<SceneTransitionCompletedEvent>.Publish(new SceneTransitionCompletedEvent());
                 return;
             }
 
@@ -74,7 +80,8 @@ namespace AgaveLinkCase.Scene
 
             _currentScene = sceneKey;
             CleanupScenes(sceneKey);
-            
+
+            EventBus<SceneTransitionCompletedEvent>.Publish(new SceneTransitionCompletedEvent());
             _isLoading = false;
         }
 

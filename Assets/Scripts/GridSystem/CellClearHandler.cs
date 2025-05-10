@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using AgaveLinkCase.Events;
 using AgaveLinkCase.EventSystem;
+using AgaveLinkCase.LinkSystem;
 using AgaveLinkCase.Settings;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;

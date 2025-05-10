@@ -1,6 +1,6 @@
 using AgaveLinkCase.EventSystem;
 
-namespace AgaveLinkCase.Events
+namespace AgaveLinkCase.LevelSystem
 {
     public enum LevelCompleteStatus
     {

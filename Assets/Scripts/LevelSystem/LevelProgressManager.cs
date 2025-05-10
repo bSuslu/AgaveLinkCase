@@ -1,7 +1,7 @@
 using System;
-using AgaveLinkCase.Events;
 using AgaveLinkCase.EventSystem;
 using AgaveLinkCase.LevelSystem.ScoreCalculation;
+using AgaveLinkCase.LinkSystem;
 
 namespace AgaveLinkCase.LevelSystem
 {

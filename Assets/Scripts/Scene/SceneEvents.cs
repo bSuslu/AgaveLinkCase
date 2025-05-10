@@ -1,7 +1,6 @@
 using AgaveLinkCase.EventSystem;
-using AgaveLinkCase.Scene;
 
-namespace AgaveLinkCase.Events
+namespace AgaveLinkCase.Scene
 {
     public struct LoadSceneRequestEvent : IEvent
     {
@@ -11,5 +10,18 @@ namespace AgaveLinkCase.Events
         {
             Scene = scene;
         }
+    }
+    
+    public struct SceneTransitionStartedEvent : IEvent
+    {
+    }
+
+    public struct SceneTransitionCompletedEvent : IEvent
+    {
+    }
+    
+    public struct OnBeforeSceneUnloadEvent : IEvent
+    {
+        
     }
 }

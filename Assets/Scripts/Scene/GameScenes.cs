@@ -4,6 +4,6 @@ namespace AgaveLinkCase.Scene
     {
         PersistentScene,
         MainMenuScene,
-        GameplayScene,
+        GameplayScene
     }
 }
