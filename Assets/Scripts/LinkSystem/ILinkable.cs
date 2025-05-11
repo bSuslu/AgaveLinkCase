@@ -1,7 +1,7 @@
-using AgaveLinkCase.Chip;
+using Chip;
 using UnityEngine;
 
-namespace AgaveLinkCase.LinkSystem
+namespace LinkSystem
 {
     public interface ILinkable
     {

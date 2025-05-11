@@ -1,4 +1,4 @@
-namespace AgaveLinkCase.Scene
+namespace Scene
 {
     public enum GameScene
     {

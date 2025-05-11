@@ -1,8 +1,8 @@
-using AgaveLinkCase.GridSystem.Converter;
-using AgaveLinkCase.LevelSystem;
+using GridSystem.Converter;
+using LevelSystem;
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem
+namespace GridSystem
 {
     public class GridFactory
     {

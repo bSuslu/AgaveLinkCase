@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AgaveLinkCase.EventSystem;
-using AgaveLinkCase.GridSystem;
-using AgaveLinkCase.LinkSystem.Conditions;
-using AgaveLinkCase.ServiceLocatorSystem;
-using AgaveLinkCase.Settings;
+using EventSystem;
+using GridSystem;
+using LinkSystem.Conditions;
+using ServiceLocatorSystem;
+using Settings;
 using UnityEngine;
 
-namespace AgaveLinkCase.LinkSystem
+namespace LinkSystem
 {
     public class LinkController : MonoBehaviour
     {

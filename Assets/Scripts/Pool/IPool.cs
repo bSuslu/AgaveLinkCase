@@ -1,4 +1,4 @@
-namespace AgaveLinkCase.Pool
+namespace Pool
 {
     public interface IPool<T>
     {

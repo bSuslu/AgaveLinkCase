@@ -1,0 +1,22 @@
+{
+    "name": "AgaveLinkCase.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:029c1c1b674aaae47a6841a0b89ad80e",
+        "GUID:02f61dfda0a8e4f00a3ab4cb6957e9ca",
+        "GUID:511fdcd35645f462aa9acd2bdeb38055",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:95d361caeb313471798518b49ef95bb8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,6 +1,6 @@
-using AgaveLinkCase.EventSystem;
+using EventSystem;
 
-namespace AgaveLinkCase.Scene
+namespace Scene
 {
     public struct LoadSceneRequestEvent : IEvent
     {

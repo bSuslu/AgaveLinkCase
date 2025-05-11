@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using AgaveLinkCase.Chip;
 using UnityEngine;
 
-namespace AgaveLinkCase.LinkSystem
+namespace LinkSystem
 {
     public class LinkLineDrawer : MonoBehaviour
     {

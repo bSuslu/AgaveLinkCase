@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using AgaveLinkCase.Chip.Selection;
-using AgaveLinkCase.Pool;
-using AgaveLinkCase.ServiceLocatorSystem;
-using AgaveLinkCase.Settings;
+using Chip.Selection;
+using Pool;
+using ServiceLocatorSystem;
+using Settings;
 using UnityEngine;
 
-namespace AgaveLinkCase.Chip
+namespace Chip
 {
     public class ChipFactory : IPool<ChipEntity>
     {

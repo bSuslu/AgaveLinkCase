@@ -1,6 +1,6 @@
 using System;
 
-namespace AgaveLinkCase.EventSystem
+namespace EventSystem
 {
     public class EventBinding<T> : IEventBinding<T> where T : IEvent
     {

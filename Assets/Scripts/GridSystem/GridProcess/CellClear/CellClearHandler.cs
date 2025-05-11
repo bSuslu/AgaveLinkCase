@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using AgaveLinkCase.EventSystem;
-using AgaveLinkCase.LinkSystem;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using EventSystem;
+using LinkSystem;
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem.GridProcess.CellClear
+namespace GridSystem.GridProcess.CellClear
 {
     [CreateAssetMenu(fileName = "CellClearGridProcessHandler", menuName = "GridProcessHandlers/CellClear")]
     public class CellClearHandler : BaseGridProcessHandler

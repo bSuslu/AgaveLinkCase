@@ -1,8 +1,8 @@
 using System.Linq;
-using AgaveLinkCase.ServiceLocatorSystem;
-using AgaveLinkCase.Settings;
+using ServiceLocatorSystem;
+using Settings;
 
-namespace AgaveLinkCase.Chip.Selection
+namespace Chip.Selection
 {
     public class PoolChipTypeSelectionStrategy : IChipConfigSelectionStrategy
     {

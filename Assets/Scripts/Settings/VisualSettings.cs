@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace AgaveLinkCase.Settings
+namespace Settings
 {
     [CreateAssetMenu(fileName = "VisualSettings", menuName = "Settings/Visual")]
     public class VisualSettings : ScriptableObject

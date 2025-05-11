@@ -1,4 +1,4 @@
-namespace AgaveLinkCase.Chip
+namespace Chip
 {
     public enum ChipType
     {

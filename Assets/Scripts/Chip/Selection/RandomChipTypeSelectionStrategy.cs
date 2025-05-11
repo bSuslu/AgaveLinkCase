@@ -1,8 +1,8 @@
-using AgaveLinkCase.ServiceLocatorSystem;
-using AgaveLinkCase.Settings;
+using ServiceLocatorSystem;
+using Settings;
 using UnityEngine;
 
-namespace AgaveLinkCase.Chip.Selection
+namespace Chip.Selection
 {
     public class RandomChipConfigSelectionStrategy : IChipConfigSelectionStrategy
     {

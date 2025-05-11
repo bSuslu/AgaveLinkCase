@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using AgaveLinkCase.EventSystem;
+using EventSystem;
 
-namespace AgaveLinkCase.LinkSystem
+namespace LinkSystem
 {
     public struct LinkCollectedEvent : IEvent
     {

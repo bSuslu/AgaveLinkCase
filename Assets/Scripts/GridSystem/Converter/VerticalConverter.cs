@@ -1,8 +1,7 @@
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem.Converter
+namespace GridSystem.Converter
 {
-    // TODO : Check abstraction if neccessary
     public class VerticalConverter : CoordinateConverter
     {
         public override Vector3 GridToWorld(int gridX, int gridY, float cellSize, Vector3 originPosition)

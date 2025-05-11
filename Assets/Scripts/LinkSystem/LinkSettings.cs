@@ -1,9 +1,7 @@
-using System.Collections.Generic;
-using AgaveLinkCase.GridSystem.GridProcess;
-using AgaveLinkCase.LinkSystem.Conditions;
+using LinkSystem.Conditions;
 using UnityEngine;
 
-namespace AgaveLinkCase.LinkSystem
+namespace LinkSystem
 {
     [CreateAssetMenu(fileName = "LinkSettings", menuName = "Settings/Link")]
     public class LinkSettings : ScriptableObject

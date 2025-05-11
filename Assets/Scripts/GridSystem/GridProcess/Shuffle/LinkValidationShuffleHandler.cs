@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
-using AgaveLinkCase.Chip;
-using AgaveLinkCase.LinkSystem;
-using AgaveLinkCase.LinkSystem.Conditions;
-using AgaveLinkCase.LinkSystem.Validator;
-using AgaveLinkCase.ServiceLocatorSystem;
-using AgaveLinkCase.Settings;
+using Chip;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using LinkSystem.Conditions;
+using LinkSystem.Validator;
+using ServiceLocatorSystem;
+using Settings;
 using UnityEngine;
+using Utils;
 
-namespace AgaveLinkCase.GridSystem.GridProcess.Shuffle
+namespace GridSystem.GridProcess.Shuffle
 {
     [CreateAssetMenu(fileName = "LinkValidationShuffleGridProcessHandler", menuName = "GridProcessHandlers/LinkValidationShuffle")]
     public class LinkValidationShuffleHandler : BaseGridProcessHandler
@@ -54,7 +54,7 @@ namespace AgaveLinkCase.GridSystem.GridProcess.Shuffle
             List<ChipEntity> allChips = new List<ChipEntity>();
 
             ExtractChips(allChips);
-            FisherYatesShuffle(allChips);
+            CollectionUtils.FisherYatesShuffle(allChips);
             AssignChipsToCells(allChips);
             MoveChipToGridPosition(allChips, taskList);
             
@@ -97,16 +97,6 @@ namespace AgaveLinkCase.GridSystem.GridProcess.Shuffle
                         currentCell.SetChip(null);
                     }
                 }
-            }
-        }
-
-        // TODO : Add Fisher-Yates shuffle to utils
-        private void FisherYatesShuffle<T>(List<T> list)
-        {
-            for (int i = list.Count - 1; i > 0; i--)
-            {
-                int j = Random.Range(0, i + 1);
-                (list[i], list[j]) = (list[j], list[i]);
             }
         }
     }

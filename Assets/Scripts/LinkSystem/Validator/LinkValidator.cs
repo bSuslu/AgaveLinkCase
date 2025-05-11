@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using AgaveLinkCase.GridSystem;
-using AgaveLinkCase.LinkSystem.Conditions;
+using GridSystem;
+using LinkSystem.Conditions;
 using UnityEngine;
 
-namespace AgaveLinkCase.LinkSystem.Validator
+namespace LinkSystem.Validator
 {
     public class LinkValidator : ILinkValidator
     {

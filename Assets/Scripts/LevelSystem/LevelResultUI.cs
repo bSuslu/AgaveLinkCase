@@ -1,7 +1,7 @@
-using AgaveLinkCase.ServiceLocatorSystem;
+using ServiceLocatorSystem;
 using UnityEngine;
 
-namespace AgaveLinkCase.LevelSystem
+namespace LevelSystem
 {
     public class LevelResultUI : MonoBehaviour
     {
@@ -9,7 +9,6 @@ namespace AgaveLinkCase.LevelSystem
         [SerializeField] private GameObject _losePanel;
         private LevelProgressManager _levelProgressManager;
 
-        // TODO changed to start due to race condition - fix it
         private void Start()
         {
             _levelProgressManager = ServiceLocator.ForSceneOf(this).Get<LevelProgressManager>();

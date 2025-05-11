@@ -1,7 +1,6 @@
-using AgaveLinkCase.Chip;
 using UnityEngine;
 
-namespace AgaveLinkCase.LinkSystem.Conditions
+namespace LinkSystem.Conditions
 {
     public abstract class LinkCondition : ScriptableObject
     {

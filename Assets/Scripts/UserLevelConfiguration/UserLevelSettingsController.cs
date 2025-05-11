@@ -1,11 +1,11 @@
-using AgaveLinkCase.EventSystem;
-using AgaveLinkCase.LevelSystem;
-using AgaveLinkCase.Scene;
-using AgaveLinkCase.ServiceLocatorSystem;
-using AgaveLinkCase.Settings;
+using EventSystem;
+using LevelSystem;
+using Scene;
+using ServiceLocatorSystem;
+using Settings;
 using UnityEngine;
 
-namespace AgaveLinkCase.UserLevelConfiguration
+namespace UserLevelConfiguration
 {
     public class UserLevelSettingsController : MonoBehaviour
     {

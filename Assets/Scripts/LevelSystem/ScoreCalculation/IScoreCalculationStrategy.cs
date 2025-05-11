@@ -1,4 +1,4 @@
-namespace AgaveLinkCase.LevelSystem.ScoreCalculation
+namespace LevelSystem.ScoreCalculation
 {
     public interface IScoreCalculationStrategy
     {

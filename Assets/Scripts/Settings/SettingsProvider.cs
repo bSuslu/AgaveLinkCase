@@ -1,10 +1,10 @@
-using AgaveLinkCase.Chip;
-using AgaveLinkCase.GridSystem;
-using AgaveLinkCase.LinkSystem;
-using AgaveLinkCase.UserLevelConfiguration;
+using Chip;
+using GridSystem;
+using LinkSystem;
 using UnityEngine;
+using UserLevelConfiguration;
 
-namespace AgaveLinkCase.Settings
+namespace Settings
 {
     public class SettingsProvider : MonoBehaviour
     {

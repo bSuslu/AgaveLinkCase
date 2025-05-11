@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AgaveLinkCase.UserLevelConfiguration
+namespace UserLevelConfiguration
 {
     public class UserLevelSettingSlider : MonoBehaviour
     {

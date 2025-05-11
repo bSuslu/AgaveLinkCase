@@ -1,10 +1,10 @@
 using System;
-using AgaveLinkCase.ServiceLocatorSystem;
-using AgaveLinkCase.Settings;
 using Cysharp.Threading.Tasks;
+using ServiceLocatorSystem;
+using Settings;
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem.GridProcess
+namespace GridSystem.GridProcess
 {
     public abstract class BaseGridProcessHandler : ScriptableObject, IDisposable
     {

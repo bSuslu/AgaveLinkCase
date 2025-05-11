@@ -1,9 +1,9 @@
-using AgaveLinkCase.EventSystem;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using EventSystem;
 using UnityEngine;
 
-namespace AgaveLinkCase.Scene
+namespace Scene
 {
     public class SceneTransitionUI : MonoBehaviour
     {

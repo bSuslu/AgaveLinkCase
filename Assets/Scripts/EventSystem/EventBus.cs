@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace AgaveLinkCase.EventSystem
+namespace EventSystem
 {
     public static class EventBus<T> where T : IEvent
     {

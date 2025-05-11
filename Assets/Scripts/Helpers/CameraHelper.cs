@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AgaveLinkCase.Helpers
+namespace Helpers
 {
     internal class CameraHelper : MonoBehaviour
     {

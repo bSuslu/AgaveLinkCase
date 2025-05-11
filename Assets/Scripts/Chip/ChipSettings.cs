@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AgaveLinkCase.Chip
+namespace Chip
 {
     [CreateAssetMenu(fileName = "ChipSettings", menuName = "Settings/Chip")]
     public class ChipSettings : ScriptableObject

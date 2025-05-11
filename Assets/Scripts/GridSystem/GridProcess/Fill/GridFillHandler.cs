@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using AgaveLinkCase.Chip;
+using Chip;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem.GridProcess.Fill
+namespace GridSystem.GridProcess.Fill
 {
     [CreateAssetMenu(fileName = "GridFillGridProcessHandler", menuName = "GridProcessHandlers/GridFill")]
     public class GridFillHandler : BaseGridProcessHandler

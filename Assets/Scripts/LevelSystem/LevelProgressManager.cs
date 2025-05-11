@@ -1,9 +1,9 @@
 using System;
-using AgaveLinkCase.EventSystem;
-using AgaveLinkCase.LevelSystem.ScoreCalculation;
-using AgaveLinkCase.LinkSystem;
+using EventSystem;
+using LevelSystem.ScoreCalculation;
+using LinkSystem;
 
-namespace AgaveLinkCase.LevelSystem
+namespace LevelSystem
 {
     public class LevelProgressManager : IDisposable
     {

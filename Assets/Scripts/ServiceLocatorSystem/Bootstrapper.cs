@@ -1,7 +1,6 @@
-using AgaveLinkCase.Extensions;
 using UnityEngine;
 
-namespace AgaveLinkCase.ServiceLocatorSystem
+namespace ServiceLocatorSystem
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(ServiceLocator))]
@@ -23,4 +22,6 @@ namespace AgaveLinkCase.ServiceLocatorSystem
 
         protected abstract void Bootstrap();
     }
+    
+    
 }

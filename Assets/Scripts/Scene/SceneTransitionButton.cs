@@ -1,8 +1,8 @@
-using AgaveLinkCase.EventSystem;
+using EventSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AgaveLinkCase.Scene
+namespace Scene
 {
     [RequireComponent(typeof(Button))]
     public class SceneTransitionButton : MonoBehaviour

@@ -1,8 +1,8 @@
-using AgaveLinkCase.LinkSystem;
-using AgaveLinkCase.Pool;
+using LinkSystem;
+using Pool;
 using UnityEngine;
 
-namespace AgaveLinkCase.Chip
+namespace Chip
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class ChipEntity : MonoBehaviour, ILinkable, IPoolable<ChipEntity>

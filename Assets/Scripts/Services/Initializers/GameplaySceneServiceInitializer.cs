@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using AgaveLinkCase.LevelSystem;
-using AgaveLinkCase.LinkSystem;
-using AgaveLinkCase.ServiceLocatorSystem;
+using LevelSystem;
+using LinkSystem;
+using ServiceLocatorSystem;
 using UnityEngine;
 
-namespace AgaveLinkCase.Services.Initializers
+namespace Services.Initializers
 {
     public class GameplaySceneServiceInitializer : MonoBehaviour
     {

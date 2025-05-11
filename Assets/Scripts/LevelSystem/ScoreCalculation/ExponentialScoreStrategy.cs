@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AgaveLinkCase.LevelSystem.ScoreCalculation
+namespace LevelSystem.ScoreCalculation
 {
     public class ExponentialScoreStrategy
     {

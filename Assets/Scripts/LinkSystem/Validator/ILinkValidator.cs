@@ -1,6 +1,6 @@
-using AgaveLinkCase.GridSystem;
+using GridSystem;
 
-namespace AgaveLinkCase.LinkSystem.Validator
+namespace LinkSystem.Validator
 {
     public interface ILinkValidator
     {

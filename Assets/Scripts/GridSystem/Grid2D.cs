@@ -1,9 +1,9 @@
 using System;
-using AgaveLinkCase.GridSystem.Converter;
+using GridSystem.Converter;
 using TMPro;
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem
+namespace GridSystem
 {
     public class Grid2D
     {

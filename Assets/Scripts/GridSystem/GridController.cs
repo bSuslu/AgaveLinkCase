@@ -1,25 +1,25 @@
 using System.Collections.Generic;
 using System.Linq;
-using AgaveLinkCase.Chip;
-using AgaveLinkCase.Chip.Selection;
-using AgaveLinkCase.EventSystem;
-using AgaveLinkCase.GridSystem.GridProcess;
-using AgaveLinkCase.Helpers;
-using AgaveLinkCase.LevelSystem;
-using AgaveLinkCase.LinkSystem;
-using AgaveLinkCase.ServiceLocatorSystem;
-using AgaveLinkCase.Settings;
+using Chip;
+using Chip.Selection;
 using Cysharp.Threading.Tasks;
+using EventSystem;
+using GridSystem.GridProcess;
+using Helpers;
+using LevelSystem;
+using LinkSystem;
+using ServiceLocatorSystem;
+using Settings;
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem
+namespace GridSystem
 {
     public class GridController : MonoBehaviour
     {
         [SerializeField] private GridInputSystem _gridInputSystem;
         [SerializeField] private CameraHelper _cameraHelper;
         [SerializeField] private SpriteRenderer _cellBackgroundSpriteRenderer;
-
+        
         public Grid2D Grid { get; private set; }
         public ChipFactory ChipFactory { get; private set; }
         public List<Vector2Int> LinkedCellsPosition { get; private set; }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AgaveLinkCase.ServiceLocatorSystem 
+namespace ServiceLocatorSystem 
 {
     [AddComponentMenu("ServiceLocator/ServiceLocator Scene")]
     public class ServiceLocatorScene : Bootstrapper

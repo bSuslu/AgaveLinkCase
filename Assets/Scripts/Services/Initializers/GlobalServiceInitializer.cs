@@ -1,9 +1,9 @@
-using AgaveLinkCase.LevelSystem;
-using AgaveLinkCase.ServiceLocatorSystem;
-using AgaveLinkCase.Settings;
+using LevelSystem;
+using ServiceLocatorSystem;
+using Settings;
 using UnityEngine;
 
-namespace AgaveLinkCase.Services.Initializers
+namespace Services.Initializers
 {
     public class GlobalServiceInitializer : MonoBehaviour
     {

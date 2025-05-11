@@ -1,8 +1,7 @@
 using System.Linq;
-using AgaveLinkCase.Chip;
 using UnityEngine;
 
-namespace AgaveLinkCase.LinkSystem.Conditions
+namespace LinkSystem.Conditions
 {
     [CreateAssetMenu(fileName = "LinkNeighbourCondition", menuName = "LinkConditions/Neighbour")]
     public class LinkNeighbourCondition : LinkCondition

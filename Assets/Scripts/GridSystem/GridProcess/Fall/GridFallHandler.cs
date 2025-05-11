@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using AgaveLinkCase.Chip;
-using AgaveLinkCase.Chip.Selection;
+using Chip;
+using Chip.Selection;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem.GridProcess.Fall
+namespace GridSystem.GridProcess.Fall
 {
     [CreateAssetMenu(fileName = "GridFallGridProcessHandler", menuName = "GridProcessHandlers/GridFall")]
     public class GridFallHandler : BaseGridProcessHandler

@@ -1,8 +1,8 @@
-using AgaveLinkCase.ServiceLocatorSystem;
+using ServiceLocatorSystem;
 using TMPro;
 using UnityEngine;
 
-namespace AgaveLinkCase.LevelSystem
+namespace LevelSystem
 {
     public class LevelProgressUI : MonoBehaviour
     {
@@ -11,7 +11,6 @@ namespace AgaveLinkCase.LevelSystem
         [SerializeField] private TextMeshProUGUI _moveCountText;
         private LevelProgressManager _levelProgressManager;
         
-        // TODO changed to start for race condition - fix it
         private void Start()
         {
             _levelProgressManager = ServiceLocator.ForSceneOf(this).Get<LevelProgressManager>();

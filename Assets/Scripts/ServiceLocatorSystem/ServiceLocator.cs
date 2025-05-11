@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AgaveLinkCase.Extensions;
 using UnityEditor;
 using UnityEngine;
 
-namespace AgaveLinkCase.ServiceLocatorSystem
+namespace ServiceLocatorSystem
 {
     public class ServiceLocator : MonoBehaviour
     {
@@ -243,5 +242,8 @@ namespace AgaveLinkCase.ServiceLocatorSystem
             var go = new GameObject(SceneServiceLocatorName, typeof(ServiceLocatorScene));
         }
 #endif
+        
+        
+        
     }
 }

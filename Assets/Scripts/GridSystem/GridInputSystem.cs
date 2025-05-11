@@ -1,12 +1,11 @@
 using System;
-using AgaveLinkCase.EventSystem;
-using AgaveLinkCase.LevelSystem;
+using EventSystem;
+using LevelSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace AgaveLinkCase.GridSystem
+namespace GridSystem
 {
-    // TODO: new Input system
     public class GridInputSystem : MonoBehaviour, InputSystem.IPlayerActions
     {
         [SerializeField] private Camera _camera;

@@ -1,4 +1,4 @@
-namespace AgaveLinkCase.Chip.Selection
+namespace Chip.Selection
 {
     public interface IChipConfigSelectionStrategy
     {

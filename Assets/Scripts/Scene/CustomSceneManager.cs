@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using AgaveLinkCase.EventSystem;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
+using EventSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace AgaveLinkCase.Scene
+namespace Scene
 {
     public class CustomSceneManager : MonoBehaviour
     {
