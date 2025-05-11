@@ -41,6 +41,7 @@ namespace Chip
         {
             _chipEntityPool.Enqueue(poolable.Get());
             poolable.Get().gameObject.SetActive(false);
+            poolable.Get().transform.localScale = Vector3.one;
         }
     }
 }

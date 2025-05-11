@@ -22,3 +22,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 16a316d2d50564e6e89bccd78c5c3377, type: 2}
   - {fileID: 11400000, guid: 36cf83252b3644dc3a4f39b2b3145ed1, type: 2}
   - {fileID: 11400000, guid: 6575bca3a02b24cabaf33e4a280862f3, type: 2}
+  <ChipEntityPoolSizeMultiplier>k__BackingField: 1.8

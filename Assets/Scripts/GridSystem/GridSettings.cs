@@ -12,7 +12,6 @@ namespace GridSystem
         [field: SerializeField] public bool Debug { get; private set; } = true;
         [field: SerializeField] public List<BaseGridProcessHandler> InitialProcessHandlers { get; private set; }
         [field: SerializeField] public List<BaseGridProcessHandler> LinkSuccessHandlers { get; private set; }
-        
-        
+        [field: SerializeField] public float ChipEntityPoolSizeMultiplier { get; private set; } = 1.5f;
     }
 }

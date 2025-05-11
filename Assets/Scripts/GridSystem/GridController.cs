@@ -111,14 +111,13 @@ namespace GridSystem
             background.size = new Vector2(Grid.Width * Grid.CellSize, Grid.Height * Grid.CellSize);
         }
 
-        // TODO Get from Settings
-        public int PoolMultiplierConstant { get; set; } = 2;
         
         private void CreateChips()
         {
+            var poolMultiplierConstant = ServiceLocator.Global.Get<SettingsProvider>().GridSettings.ChipEntityPoolSizeMultiplier;
             IChipConfigSelectionStrategy chipConfigSelectionStrategy = new RandomChipConfigSelectionStrategy();
             ChipFactory = new ChipFactory();
-            ChipFactory.InitPool(Grid.Height * Grid.Width * PoolMultiplierConstant, transform);
+            ChipFactory.InitPool((int)(Grid.Height * Grid.Width * poolMultiplierConstant), transform);
 
             for (var x = 0; x < Grid.Width; x++)
             {

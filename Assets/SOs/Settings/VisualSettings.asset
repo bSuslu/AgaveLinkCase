@@ -19,7 +19,7 @@ MonoBehaviour:
   _fallOffset: 5
   _chipDisappearDuration: 0.25
   _chipDisappearIntervalMS: 50
-  _chipDisappearEase: 27
+  _chipDisappearEase: 1
   _shuffleDuration: 0.5
   _shuffleEase: 1
   _shuffleIntervalMS: 300
