@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AgaveLinkCase.LevelSystem;
+using AgaveLinkCase.LinkSystem;
 using AgaveLinkCase.ServiceLocatorSystem;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace AgaveLinkCase.Services.Initializers
 {
     public class GameplaySceneServiceInitializer : MonoBehaviour
     {
+        [SerializeField] private LinkController _linkController;
         private List<IDisposable> _disposableServices = new List<IDisposable>();
         private void Awake()
         {

@@ -1,26 +1,21 @@
 using System.Collections.Generic;
 using AgaveLinkCase.Chip;
-using AgaveLinkCase.Settings;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem
+namespace AgaveLinkCase.GridSystem.GridProcess.Fill
 {
+    [CreateAssetMenu(fileName = "GridFillGridProcessHandler", menuName = "GridProcessHandlers/GridFill")]
     public class GridFillHandler : BaseGridProcessHandler
     {
-        private Grid2D _grid;
-        private VisualSettings _visualSettings;
-
-        public GridFillHandler(Grid2D grid, VisualSettings visualSettings)
-        {
-            _grid = grid;
-            _visualSettings = visualSettings;
-        }
+        [SerializeField] private int _additionalDelay = 1000;
+        [SerializeField] private bool _waitFillFinishesBeforeNextProcess = true;
 
         public override async UniTask HandleAsync()
         {
+            await UniTask.Yield();
             List<UniTask> tasks = new List<UniTask>();
-            HashSet<int> columnIndexLocks = new HashSet<int>();
 
             for (int x = 0; x < _grid.Width; x++)
             {
@@ -36,7 +31,6 @@ namespace AgaveLinkCase.GridSystem
                         if (!upperCell.IsOccupied)
                             continue;
 
-                        columnIndexLocks.Add(x);
 
                         ChipEntity fallingChipEntity = upperCell.ChipEntity;
                         upperCell.SetChip(null);
@@ -51,7 +45,11 @@ namespace AgaveLinkCase.GridSystem
                 }
             }
 
-            await UniTask.Delay(100);
+            if (_waitFillFinishesBeforeNextProcess)
+                await UniTask.WhenAll(tasks.ToArray());
+
+            await UniTask.Delay(_additionalDelay);
+            await UniTask.Yield();
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AgaveLinkCase.EventSystem;
 using AgaveLinkCase.GridSystem;
 using AgaveLinkCase.LinkSystem.Conditions;
 using AgaveLinkCase.ServiceLocatorSystem;
@@ -18,13 +19,15 @@ namespace AgaveLinkCase.LinkSystem
         public event Action<List<ILinkable>> OnLinkUpdated;
 
         private readonly List<ILinkable> _linkables = new List<ILinkable>();
+        public List<ILinkable> ActiveLinkables;
+
         private LinkSettings _linkSettings;
-        
+
         private void Awake()
         {
             _gridInputSystem.OnNewCellTouched += OnNewCellTouched;
             _gridInputSystem.OnRelease += OnRelease;
-            
+
             _linkSettings = ServiceLocator.Global.Get<SettingsProvider>().LinkSettings;
             _linkCreateConditions = _linkSettings.LinkConditions;
         }
@@ -34,7 +37,7 @@ namespace AgaveLinkCase.LinkSystem
             _gridInputSystem.OnNewCellTouched -= OnNewCellTouched;
             _gridInputSystem.OnRelease -= OnRelease;
         }
-        
+
         private void OnNewCellTouched(Cell newCell)
         {
             if (newCell.IsLocked || !newCell.IsOccupied)
@@ -42,25 +45,25 @@ namespace AgaveLinkCase.LinkSystem
 
             if (newCell.ChipEntity is not ILinkable newLinkable)
                 return;
-            
+
             if (_linkables.Count.Equals(0))
             {
                 LinkCell(newCell);
                 return;
             }
-            
+
             if (_linkables.Count > 1 && newLinkable == _linkables[^2])
             {
                 UnlinkLastCell();
                 return;
             }
-            
+
             if (_linkables.Contains(newLinkable))
                 return;
 
-            if (!AreConditionsMet(newCell)) 
+            if (!AreConditionsMet(newCell))
                 return;
-            
+
             LinkCell(newCell);
         }
 
@@ -86,8 +89,9 @@ namespace AgaveLinkCase.LinkSystem
         {
             if (IsLinkConditionsMet())
             {
-                List<ILinkable> linkedCells = new List<ILinkable>(_linkables);
-                OnLinkSuccess?.Invoke(linkedCells);
+                ActiveLinkables = new List<ILinkable>(_linkables);
+                OnLinkSuccess?.Invoke(ActiveLinkables);
+                EventBus<LinkSuccessEvent>.Publish(new LinkSuccessEvent(ActiveLinkables));
             }
 
             _linkables.Clear();

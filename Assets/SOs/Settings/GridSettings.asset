@@ -14,4 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CellSize: 2.56
   <OriginPosition>k__BackingField: {x: 0, y: 0, z: 0}
-  <Debug>k__BackingField: 1
+  <Debug>k__BackingField: 0
+  <InitialProcessHandlers>k__BackingField:
+  - {fileID: 11400000, guid: 6575bca3a02b24cabaf33e4a280862f3, type: 2}
+  <LinkSuccessHandlers>k__BackingField:
+  - {fileID: 11400000, guid: b47ad3a2d446146dbbc96fed8445ad4e, type: 2}
+  - {fileID: 11400000, guid: 16a316d2d50564e6e89bccd78c5c3377, type: 2}
+  - {fileID: 11400000, guid: 36cf83252b3644dc3a4f39b2b3145ed1, type: 2}
+  - {fileID: 11400000, guid: 6575bca3a02b24cabaf33e4a280862f3, type: 2}

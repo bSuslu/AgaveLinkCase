@@ -68,7 +68,7 @@ namespace AgaveLinkCase.GridSystem
             return TryGetCell(cellIndex.x, cellIndex.y, out value);
         }
 
-        private bool TryGetCell(int x, int y, out Cell cell)
+        public bool TryGetCell(int x, int y, out Cell cell)
         {
             cell = null;
             if (IsValid(x, y))
@@ -84,6 +84,8 @@ namespace AgaveLinkCase.GridSystem
         {
             return _cells[x, y];
         }
+        
+        public Cell GetCell(Vector2Int position) => GetCell(position.x, position.y);
 
         public bool IsValid(int x, int y) => x >= 0 && y >= 0 && x < Width && y < Height;
 

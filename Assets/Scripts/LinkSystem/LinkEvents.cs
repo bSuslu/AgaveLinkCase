@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AgaveLinkCase.EventSystem;
 
 namespace AgaveLinkCase.LinkSystem
@@ -9,6 +10,16 @@ namespace AgaveLinkCase.LinkSystem
         public LinkCollectedEvent(int count)
         {
             Count = count;
+        }
+    }
+
+    public struct LinkSuccessEvent : IEvent
+    {
+        public List<ILinkable> Link { get; }
+        
+        public LinkSuccessEvent(List<ILinkable> link)
+        {
+            Link = link;
         }
     }
 }

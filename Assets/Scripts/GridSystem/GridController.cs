@@ -1,13 +1,15 @@
 using System.Collections.Generic;
+using System.Linq;
 using AgaveLinkCase.Chip;
 using AgaveLinkCase.Chip.Selection;
+using AgaveLinkCase.EventSystem;
+using AgaveLinkCase.GridSystem.GridProcess;
 using AgaveLinkCase.Helpers;
 using AgaveLinkCase.LevelSystem;
 using AgaveLinkCase.LinkSystem;
 using AgaveLinkCase.ServiceLocatorSystem;
 using AgaveLinkCase.Settings;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using UnityEngine;
 
 namespace AgaveLinkCase.GridSystem
@@ -15,111 +17,124 @@ namespace AgaveLinkCase.GridSystem
     public class GridController : MonoBehaviour
     {
         [SerializeField] private GridInputSystem _gridInputSystem;
-        [SerializeField] private LinkController _linkController;
         [SerializeField] private CameraHelper _cameraHelper;
         [SerializeField] private SpriteRenderer _cellBackgroundSpriteRenderer;
-        
-        private Grid2D _grid;
-        private ChipFactory _chipFactory;
 
-        private VisualSettings _visualSettings;
+        public Grid2D Grid { get; private set; }
+        public ChipFactory ChipFactory { get; private set; }
+        public List<Vector2Int> LinkedCellsPosition { get; private set; }
+
+        private List<BaseGridProcessHandler> _initialProcessHandlers;
+        private List<BaseGridProcessHandler> _linkSuccessHandlers;
+        private EventBinding<LinkSuccessEvent> _linkSuccessEventBinding;
 
         private void Awake()
         {
-            _linkController.OnLinkSuccess += OnLinkSuccess;
+            _linkSuccessEventBinding = new EventBinding<LinkSuccessEvent>(OnLinkSuccess);
+            EventBus<LinkSuccessEvent>.Subscribe(_linkSuccessEventBinding);
 
-            _visualSettings = ServiceLocator.Global.Get<SettingsProvider>().VisualSettings;
+            var settingsProvider = ServiceLocator.Global.Get<SettingsProvider>();
+            _initialProcessHandlers = settingsProvider.GridSettings.InitialProcessHandlers;
+            _linkSuccessHandlers = settingsProvider.GridSettings.LinkSuccessHandlers;
         }
 
         private void OnDestroy()
         {
-            _linkController.OnLinkSuccess -= OnLinkSuccess;
+            EventBus<LinkSuccessEvent>.Unsubscribe(_linkSuccessEventBinding);
+            _initialProcessHandlers.ForEach(x => x.Dispose());
+            _linkSuccessHandlers.ForEach(x => x.Dispose());
         }
 
-        private void Start()
+        private async void Start()
         {
             LevelData levelData = ServiceLocator.Global.Get<LevelService>().LevelData;
             GridSettings gridSettings = ServiceLocator.Global.Get<SettingsProvider>().GridSettings;
 
-            _grid = new GridFactory().Create(gridSettings, levelData);
+            Grid = new GridFactory().Create(gridSettings, levelData);
             ConstructGridBackground();
             CreateChips();
 
-            _gridInputSystem.Initialize(_grid);
-            _cameraHelper.HandleGridFrustum(_grid.GetWorldPosition(0, 0),
-                _grid.GetWorldPosition(_grid.Width, _grid.Height));
+            _gridInputSystem.Initialize(Grid);
+            _cameraHelper.HandleGridFrustum(Grid.GetWorldPosition(0, 0),
+                Grid.GetWorldPosition(Grid.Width, Grid.Height));
+
+            _initialProcessHandlers.ForEach(x => x.Init(this));
+            _linkSuccessHandlers.ForEach(x => x.Init(this));
+
+            await ProcessInitialGrid();
+        }
+
+        private void OnLinkSuccess(LinkSuccessEvent linkSuccessEvent)
+        {
+            ProcessSuccessfulLinkGrid(linkSuccessEvent.Link).Forget();
         }
         
-        private void OnLinkSuccess(List<ILinkable> cells)
+        private async UniTask ProcessInitialGrid()
         {
-            ProcessGrid(cells).Forget();
-        }
+            var allColumnIndexes = new HashSet<int>(Enumerable.Range(0, Grid.Width));
 
-        private async UniTaskVoid ProcessGrid(List<ILinkable> linkables) //TODO LinkData class
-        {
-            HashSet<int> columnIndexLocks = new HashSet<int>();
-            List<Vector2Int> coords = new List<Vector2Int>();
-
-            foreach (var linkable in linkables)
+            SetColumnLockState(allColumnIndexes, true);
+            foreach (var handler in _initialProcessHandlers)
             {
-                columnIndexLocks.Add(linkable.CellPos.x);
-                coords.Add(linkable.CellPos);
-            }
-
-            SetColumnLockState(columnIndexLocks, true);
-
-            var cellClearHandler = new CellClearHandler(_grid, _visualSettings, coords);
-            var fillHandler = new GridFillHandler(_grid, _visualSettings);
-            var fallHandler = new GridFallHandler(_grid, _visualSettings, _chipFactory, transform);
-            var shuffleHandler = new ShuffleHandler(_grid, _visualSettings);
-
-            var handlerList = new List<BaseGridProcessHandler>();
-            handlerList.Add(cellClearHandler);
-            handlerList.Add(fillHandler);
-            handlerList.Add(fallHandler);
-            handlerList.Add(shuffleHandler);
-            
-            foreach (var handler in handlerList)
-            {
+                handler.Init(this);
                 await handler.HandleAsync();
             }
 
+            SetColumnLockState(allColumnIndexes, false);
+        }
+
+        private async UniTaskVoid ProcessSuccessfulLinkGrid(List<ILinkable> cells)
+        {
+            await UniTask.Yield();
+            HashSet<int> columnIndexLocks = new HashSet<int>();
+            LinkedCellsPosition = new List<Vector2Int>();
+
+            foreach (var linkable in cells)
+            {
+                columnIndexLocks.Add(linkable.CellPos.x);
+                LinkedCellsPosition.Add(linkable.CellPos);
+            }
+
+            SetColumnLockState(columnIndexLocks, true);
+            foreach (var handler in _linkSuccessHandlers)
+            {
+                await handler.HandleAsync();
+            }
             SetColumnLockState(columnIndexLocks, false);
         }
-        
-        // TODO: Dependent to grid settings, fix it
+
         private void ConstructGridBackground()
         {
             var background = Instantiate(_cellBackgroundSpriteRenderer, transform);
-            var maxPoint = _grid.GetWorldPosition(_grid.Width, _grid.Height);
-            var minPoint = _grid.GetWorldPosition(0, 0);
+            var maxPoint = Grid.GetWorldPosition(Grid.Width, Grid.Height);
+            var minPoint = Grid.GetWorldPosition(0, 0);
             background.gameObject.transform.position = (maxPoint - minPoint) / 2f;
-            background.size = new Vector2(_grid.Width * _grid.CellSize, _grid.Height * _grid.CellSize);
+            background.size = new Vector2(Grid.Width * Grid.CellSize, Grid.Height * Grid.CellSize);
         }
 
         private void CreateChips()
         {
             IChipConfigSelectionStrategy chipConfigSelectionStrategy = new RandomChipConfigSelectionStrategy();
-            _chipFactory = new ChipFactory(chipConfigSelectionStrategy);
+            ChipFactory = new ChipFactory(chipConfigSelectionStrategy);
 
-            for (var x = 0; x < _grid.Width; x++)
+            for (var x = 0; x < Grid.Width; x++)
             {
-                for (var y = 0; y < _grid.Height; y++)
+                for (var y = 0; y < Grid.Height; y++)
                 {
-                    Vector3 position = _grid.GetWorldPositionCenter(x, y);
-                    ChipEntity chipEntity = _chipFactory.Create(position, transform);
-                    _grid.GetCell(x, y).SetChip(chipEntity);
+                    Vector3 position = Grid.GetWorldPositionCenter(x, y);
+                    ChipEntity chipEntity = ChipFactory.Create(position, transform);
+                    Grid.GetCell(x, y).SetChip(chipEntity);
                 }
             }
         }
-        
+
         private void SetColumnLockState(HashSet<int> columns, bool isLocked)
         {
             foreach (var x in columns)
             {
-                for (int y = 0; y < _grid.Height; y++)
+                for (int y = 0; y < Grid.Height; y++)
                 {
-                    _grid.GetCell(x, y).IsLocked = isLocked;
+                    Grid.GetCell(x, y).IsLocked = isLocked;
                 }
             }
         }
