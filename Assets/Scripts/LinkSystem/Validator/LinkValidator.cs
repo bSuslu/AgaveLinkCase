@@ -4,9 +4,9 @@ using AgaveLinkCase.GridSystem;
 using AgaveLinkCase.LinkSystem.Conditions;
 using UnityEngine;
 
-namespace AgaveLinkCase.LinkSystem
+namespace AgaveLinkCase.LinkSystem.Validator
 {
-    public class LinkValidator
+    public class LinkValidator : ILinkValidator
     {
         private readonly int _minLinkLength;
         private readonly List<LinkCondition> _conditions;
@@ -33,8 +33,8 @@ namespace AgaveLinkCase.LinkSystem
 
                     if (linkables.Count >= _minLinkLength)
                     {
-                        string linkablePositions = string.Join(", ", linkables.Select(l => l.CellPos));
-                        Debug.Log($"Link found: {linkablePositions}");
+                        // string linkablePositions = string.Join(", ", linkables.Select(l => l.CellPos));
+                        // Debug.Log($"Link found: {linkablePositions}");
                         return true;
                     }
                 }

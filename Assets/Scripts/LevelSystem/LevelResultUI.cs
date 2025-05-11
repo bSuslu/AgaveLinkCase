@@ -17,10 +17,14 @@ namespace AgaveLinkCase.LevelSystem
             _levelProgressManager.OnLevelSuccess += OnLevelSuccess;
         }
         
+        // TODO Dispose to prevent null check
         private void OnDestroy()
         {
-            _levelProgressManager.OnLevelFail -= OnLevelFail;
-            _levelProgressManager.OnLevelSuccess -= OnLevelSuccess;
+            if (_levelProgressManager!= null)
+            {
+                _levelProgressManager.OnLevelFail -= OnLevelFail;
+                _levelProgressManager.OnLevelSuccess -= OnLevelSuccess;
+            }
         }
 
         private void OnLevelSuccess() => _winPanel.SetActive(true);

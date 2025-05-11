@@ -8,6 +8,5 @@ namespace AgaveLinkCase.LevelSystem
         {
             LevelData = levelData;
         }
-
     }
 }

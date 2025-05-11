@@ -216,7 +216,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -337,7 +337,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gridInputSystem: {fileID: 1520340273}
-  _linkController: {fileID: 80092085}
   _cameraHelper: {fileID: 526061351}
   _cellBackgroundSpriteRenderer: {fileID: 5425469821200698698, guid: 73d59e1874b904403b65fdfb5cf1faf0, type: 3}
 --- !u!224 &285857469 stripped
@@ -707,6 +706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82cc065d90384c99b3e13b12bf65f993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _linkController: {fileID: 0}
 --- !u!1001 &2756250693809259452
 PrefabInstance:
   m_ObjectHideFlags: 0

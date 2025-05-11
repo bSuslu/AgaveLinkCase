@@ -18,7 +18,7 @@ MonoBehaviour:
   <MinMoveCount>k__BackingField: 5
   <MaxMoveCount>k__BackingField: 50
   <LabelMoveCount>k__BackingField: Move Count
-  <MinGridWidth>k__BackingField: 3
+  <MinGridWidth>k__BackingField: 5
   <MaxGridWidth>k__BackingField: 10
   <LabelGridWidth>k__BackingField: Grid Width
   <MinGridHeight>k__BackingField: 5

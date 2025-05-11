@@ -23,10 +23,15 @@ namespace AgaveLinkCase.LevelSystem
             OnMoveCountValueChanged(_levelProgressManager.MoveCount);
             OnScoreValueChanged(_levelProgressManager.Score);
         }
+        
+        // TODO Dispose to prevent null check
         private void OnDestroy()
         {
-            _levelProgressManager.OnMoveCountValueChanged -= OnMoveCountValueChanged;
-            _levelProgressManager.OnScoreValueChanged -= OnScoreValueChanged;   
+            if (_levelProgressManager!= null)
+            {
+                _levelProgressManager.OnMoveCountValueChanged -= OnMoveCountValueChanged;
+                _levelProgressManager.OnScoreValueChanged -= OnScoreValueChanged;  
+            }
         }
 
         private void OnScoreValueChanged(int value)
