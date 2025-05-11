@@ -12,6 +12,7 @@ namespace AgaveLinkCase.GridSystem.GridProcess.Fall
         public override async UniTask HandleAsync()
         {
             await UniTask.Yield();
+            
             var taskList = new List<UniTask>();
             for (int x = 0; x < _gridController.Grid.Width; x++)
             {
@@ -36,8 +37,8 @@ namespace AgaveLinkCase.GridSystem.GridProcess.Fall
                     }
                 }
             }
-
             await UniTask.WhenAll(taskList.ToArray());
+            
             await UniTask.Yield();
         }
     }

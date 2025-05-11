@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8655a4c0595e486d9843352b0d7ccda9, type: 3}
   m_Name: VisualSettings
   m_EditorClassIdentifier: 
-  _fillDuration: 0.25
-  _fillEase: 1
-  _fallDuration: 0.25
-  _fallEase: 1
+  _fillDuration: 0.5
+  _fillEase: 27
+  _fallDuration: 0.5
+  _fallEase: 27
   _fallOffset: 5
   _chipDisappearDuration: 0.25
   _chipDisappearIntervalMS: 50
-  _chipDisappearEase: 1
+  _chipDisappearEase: 27
   _shuffleDuration: 0.5
   _shuffleEase: 1
+  _shuffleIntervalMS: 300

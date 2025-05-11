@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2eb8d9e69bd42a98e31f36f06a2433f, type: 3}
-  m_Name: RandomShuffleGridProcessHandler
+  m_Name: LinkValidationShuffleGridProcessHandler
   m_EditorClassIdentifier: 
   _durationBetweenShufflesInMS: 500

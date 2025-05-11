@@ -30,7 +30,7 @@ namespace AgaveLinkCase.UserLevelConfiguration
 
         private void Start()
         {
-            UserLevelConfigLimitationSettings settings = ServiceLocator.Global.Get<SettingsProvider>().UserLevelConfigLimitationSettings; // TODO: Remove>();
+            UserLevelConfigLimitationSettings settings = ServiceLocator.Global.Get<SettingsProvider>().UserLevelConfigLimitationSettings;
         
             _targetScoreSlider.SetSlider(settings.MinTargetScore, settings.MaxTargetScore, settings.LabelTargetScore);
             _moveCountSlider.SetSlider(settings.MinMoveCount, settings.MaxMoveCount, settings.LabelMoveCount);

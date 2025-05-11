@@ -15,8 +15,8 @@ namespace AgaveLinkCase.GridSystem.GridProcess.Fill
         public override async UniTask HandleAsync()
         {
             await UniTask.Yield();
+            
             List<UniTask> tasks = new List<UniTask>();
-
             for (int x = 0; x < _grid.Width; x++)
             {
                 for (int y = 0; y < _grid.Height; y++)

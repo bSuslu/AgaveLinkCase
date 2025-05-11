@@ -31,7 +31,9 @@ namespace AgaveLinkCase.Settings
         [Header("Shuffle Settings")]
         [SerializeField] private float _shuffleDuration;
         [SerializeField] private Ease _shuffleEase;
+        [SerializeField] private int _shuffleIntervalMS;
         public float ShuffleDuration => _shuffleDuration;
         public Ease ShuffleEase => _shuffleEase;
+        public int ShuffleIntervalMS => _shuffleIntervalMS;
     }
 }

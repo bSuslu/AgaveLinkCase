@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AgaveLinkCase.GridSystem
+namespace AgaveLinkCase.GridSystem.Converter
 {
     // TODO : Check abstraction if neccessary
     public class VerticalConverter : CoordinateConverter

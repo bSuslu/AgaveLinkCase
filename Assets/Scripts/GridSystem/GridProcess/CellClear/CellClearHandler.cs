@@ -30,6 +30,7 @@ namespace AgaveLinkCase.GridSystem.GridProcess.CellClear
         public override async UniTask HandleAsync()
         {
             await UniTask.Yield();
+            
             var cellList = new List<Cell>();
             var taskList = new List<UniTask>();
             foreach (var coord in _cellsPositions)
@@ -42,9 +43,7 @@ namespace AgaveLinkCase.GridSystem.GridProcess.CellClear
             }
 
             await UniTask.WhenAll(taskList.ToArray());
-            
             EventBus<LinkCollectedEvent>.Publish(new LinkCollectedEvent(_cellsPositions.Count));
-            
             cellList.ForEach(c => c.DestroyChip());
             
             await UniTask.Yield();

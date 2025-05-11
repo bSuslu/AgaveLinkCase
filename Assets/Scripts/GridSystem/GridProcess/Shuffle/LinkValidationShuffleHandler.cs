@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace AgaveLinkCase.GridSystem.GridProcess.Shuffle
 {
-    [CreateAssetMenu(fileName = "GridShuffleGridProcessHandler", menuName = "GridProcessHandlers/GridShuffle")]
+    [CreateAssetMenu(fileName = "LinkValidationShuffleGridProcessHandler", menuName = "GridProcessHandlers/LinkValidationShuffle")]
     public class LinkValidationShuffleHandler : BaseGridProcessHandler
     {
         private int _minLinkLength;
@@ -23,6 +23,11 @@ namespace AgaveLinkCase.GridSystem.GridProcess.Shuffle
         {
             base.Init(gridController);
 
+            SetupFields();
+        }
+
+        private void SetupFields()
+        {
             var linkSettings = ServiceLocator.Global.Get<SettingsProvider>().LinkSettings;
             _minLinkLength = linkSettings.MinLinkLength;
             _conditions = linkSettings.LinkConditions.ToList();
@@ -37,6 +42,7 @@ namespace AgaveLinkCase.GridSystem.GridProcess.Shuffle
         {
             while (!_linkValidator.IsLinkExist(_gridController.Grid))
             {
+                await UniTask.Delay(_visualSettings.ShuffleIntervalMS);
                 await Shuffle();
             }
         }
@@ -49,17 +55,19 @@ namespace AgaveLinkCase.GridSystem.GridProcess.Shuffle
             ExtractChips(allChips);
             FisherYatesShuffle(allChips);
             AssignChipsToCells(allChips);
+            MoveChipToGridPosition(allChips, taskList);
+            
+            await UniTask.WhenAll(taskList.ToArray());
+        }
 
+        private void MoveChipToGridPosition(List<ChipEntity> allChips, List<UniTask> taskList)
+        {
             foreach (var chipEntity in allChips)
             {
                 taskList.Add(chipEntity.transform.DOMove(
                     _gridController.Grid.GetWorldPositionCenter(chipEntity.CellPos.x, chipEntity.CellPos.y),
                     _visualSettings.ShuffleDuration).SetEase(_visualSettings.ShuffleEase).ToUniTask());
             }
-            
-            await UniTask.WhenAll(taskList.ToArray());
-
-            await UniTask.Delay(1000);
         }
 
         private void AssignChipsToCells(List<ChipEntity> allChips)
@@ -96,7 +104,7 @@ namespace AgaveLinkCase.GridSystem.GridProcess.Shuffle
         {
             for (int i = list.Count - 1; i > 0; i--)
             {
-                int j = UnityEngine.Random.Range(0, i + 1);
+                int j = Random.Range(0, i + 1);
                 (list[i], list[j]) = (list[j], list[i]);
             }
         }
