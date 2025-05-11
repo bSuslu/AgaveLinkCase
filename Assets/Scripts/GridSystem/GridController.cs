@@ -25,7 +25,7 @@ namespace AgaveLinkCase.GridSystem
         public List<Vector2Int> LinkedCellsPosition { get; private set; }
 
         private List<BaseGridProcessHandler> _initialProcessHandlers;
-        private List<BaseGridProcessHandler> _linkSuccessHandlers;
+        private List<BaseGridProcessHandler> _linkSuccessProcessHandlers;
         private EventBinding<LinkSuccessEvent> _linkSuccessEventBinding;
 
         private void Awake()
@@ -35,14 +35,14 @@ namespace AgaveLinkCase.GridSystem
 
             var settingsProvider = ServiceLocator.Global.Get<SettingsProvider>();
             _initialProcessHandlers = settingsProvider.GridSettings.InitialProcessHandlers;
-            _linkSuccessHandlers = settingsProvider.GridSettings.LinkSuccessHandlers;
+            _linkSuccessProcessHandlers = settingsProvider.GridSettings.LinkSuccessHandlers;
         }
 
         private void OnDestroy()
         {
             EventBus<LinkSuccessEvent>.Unsubscribe(_linkSuccessEventBinding);
             _initialProcessHandlers.ForEach(x => x.Dispose());
-            _linkSuccessHandlers.ForEach(x => x.Dispose());
+            _linkSuccessProcessHandlers.ForEach(x => x.Dispose());
         }
 
         private async void Start()
@@ -59,7 +59,7 @@ namespace AgaveLinkCase.GridSystem
                 Grid.GetWorldPosition(Grid.Width, Grid.Height));
 
             _initialProcessHandlers.ForEach(x => x.Init(this));
-            _linkSuccessHandlers.ForEach(x => x.Init(this));
+            _linkSuccessProcessHandlers.ForEach(x => x.Init(this));
 
             await ProcessInitialGrid();
         }
@@ -96,7 +96,7 @@ namespace AgaveLinkCase.GridSystem
             }
 
             SetColumnLockState(columnIndexLocks, true);
-            foreach (var handler in _linkSuccessHandlers)
+            foreach (var handler in _linkSuccessProcessHandlers)
             {
                 await handler.HandleAsync();
             }
