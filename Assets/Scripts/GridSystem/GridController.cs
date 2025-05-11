@@ -118,7 +118,7 @@ namespace AgaveLinkCase.GridSystem
         {
             IChipConfigSelectionStrategy chipConfigSelectionStrategy = new RandomChipConfigSelectionStrategy();
             ChipFactory = new ChipFactory();
-            ChipFactory.InitPool(Grid.Height * Grid.Width * PoolMultiplierConstant);
+            ChipFactory.InitPool(Grid.Height * Grid.Width * PoolMultiplierConstant, transform);
 
             for (var x = 0; x < Grid.Width; x++)
             {
@@ -131,8 +131,6 @@ namespace AgaveLinkCase.GridSystem
                 }
             }
         }
-
-        
 
         private void SetColumnLockState(HashSet<int> columns, bool isLocked)
         {

@@ -721,7 +721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6529065152570006213, guid: 2b414851e164946af8d4e2e9ccf49733, type: 3}
       propertyPath: m_Color.a
-      value: 1
+      value: 0.9411765
       objectReference: {fileID: 0}
     - target: {fileID: 6879678119292358588, guid: 2b414851e164946af8d4e2e9ccf49733, type: 3}
       propertyPath: m_Pivot.x
@@ -805,7 +805,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8705773859589136818, guid: 2b414851e164946af8d4e2e9ccf49733, type: 3}
       propertyPath: m_Color.a
-      value: 1
+      value: 0.9411765
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

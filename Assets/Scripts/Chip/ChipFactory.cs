@@ -17,10 +17,8 @@ namespace AgaveLinkCase.Chip
             _chipEntityPrefab = ServiceLocator.Global.Get<SettingsProvider>().ChipSettings.ChipEntityPrefab;
         }
 
-        public void InitPool(int poolSize)
+        public void InitPool(int poolSize, Transform parent)
         {
-            var parent = new GameObject("ChipPool").transform;
-
             for (int i = 0; i < poolSize; i++)
             {
                 ChipEntity chipEntityInstance = Object.Instantiate(_chipEntityPrefab, parent);
@@ -38,8 +36,7 @@ namespace AgaveLinkCase.Chip
             chipEntity.SetType(chipConfig);
             return chipEntity;
         }
-
-
+        
         public void ReturnToPool(IPoolable<ChipEntity> poolable)
         {
             _chipEntityPool.Enqueue(poolable.Get());
