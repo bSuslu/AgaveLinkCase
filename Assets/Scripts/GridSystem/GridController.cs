@@ -53,7 +53,6 @@ namespace AgaveLinkCase.GridSystem
             Grid = new GridFactory().Create(gridSettings, levelData);
             ConstructGridBackground();
             CreateChips();
-
             _gridInputSystem.Initialize(Grid);
             _cameraHelper.HandleGridFrustum(Grid.GetWorldPosition(0, 0),
                 Grid.GetWorldPosition(Grid.Width, Grid.Height));
@@ -112,21 +111,28 @@ namespace AgaveLinkCase.GridSystem
             background.size = new Vector2(Grid.Width * Grid.CellSize, Grid.Height * Grid.CellSize);
         }
 
+        // TODO Get from Settings
+        public int PoolMultiplierConstant { get; set; } = 2;
+        
         private void CreateChips()
         {
             IChipConfigSelectionStrategy chipConfigSelectionStrategy = new RandomChipConfigSelectionStrategy();
-            ChipFactory = new ChipFactory(chipConfigSelectionStrategy);
+            ChipFactory = new ChipFactory();
+            ChipFactory.InitPool(Grid.Height * Grid.Width * PoolMultiplierConstant);
 
             for (var x = 0; x < Grid.Width; x++)
             {
                 for (var y = 0; y < Grid.Height; y++)
                 {
                     Vector3 position = Grid.GetWorldPositionCenter(x, y);
-                    ChipEntity chipEntity = ChipFactory.Create(position, transform);
+                    ChipEntity chipEntity = ChipFactory.Create(chipConfigSelectionStrategy);
+                    chipEntity.transform.position = position;
                     Grid.GetCell(x, y).SetChip(chipEntity);
                 }
             }
         }
+
+        
 
         private void SetColumnLockState(HashSet<int> columns, bool isLocked)
         {
