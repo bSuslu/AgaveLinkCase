@@ -17,8 +17,9 @@ namespace GridSystem.GridProcess.Shuffle
     {
         private int _minLinkLength;
         private List<LinkCondition> _conditions;
-        protected Vector2Int[] _neighborDirectionsToCheck; // this parts decide diagonals or orthogonal or both
+        private Vector2Int[] _neighborDirectionsToCheck; // this parts decide diagonals or orthogonal or both
         private LinkValidator _linkValidator;
+        private List<ChipEntity> _allChips;
 
         public override void Init(GridController gridController)
         {
@@ -41,24 +42,32 @@ namespace GridSystem.GridProcess.Shuffle
 
         public override async UniTask HandleAsync()
         {
+            await UniTask.Yield();
+            
+            int shuffleCount = 0;
+            // TODO add max shuffle count
             while (!_linkValidator.IsLinkExist(_gridController.Grid))
             {
-                await UniTask.Delay(_visualSettings.ShuffleIntervalMS);
-                await Shuffle();
+                shuffleCount++;
+                Shuffle();
             }
+
+            if (shuffleCount > 0)
+            {
+                var taskList = new List<UniTask>();
+                MoveChipToGridPosition(_allChips, taskList);
+                await UniTask.WhenAll(taskList.ToArray());
+            }
+
+            await UniTask.Yield();
         }
 
-        private async UniTask Shuffle()
+        private void Shuffle()
         {
-            var taskList = new List<UniTask>();
-            List<ChipEntity> allChips = new List<ChipEntity>();
-
-            ExtractChips(allChips);
-            CollectionUtils.FisherYatesShuffle(allChips);
-            AssignChipsToCells(allChips);
-            MoveChipToGridPosition(allChips, taskList);
-            
-            await UniTask.WhenAll(taskList.ToArray());
+            _allChips = new List<ChipEntity>();
+            ExtractChips(_allChips);
+            CollectionUtils.FisherYatesShuffle(_allChips);
+            AssignChipsToCells(_allChips);
         }
 
         private void MoveChipToGridPosition(List<ChipEntity> allChips, List<UniTask> taskList)

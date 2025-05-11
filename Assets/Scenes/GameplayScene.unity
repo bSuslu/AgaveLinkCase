@@ -715,9 +715,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 693500210}
     m_Modifications:
+    - target: {fileID: 3597408837547164822, guid: 2b414851e164946af8d4e2e9ccf49733, type: 3}
+      propertyPath: m_Name
+      value: pnl_lose
+      objectReference: {fileID: 0}
     - target: {fileID: 4557853336296329648, guid: 2b414851e164946af8d4e2e9ccf49733, type: 3}
       propertyPath: m_Name
       value: LevelResultPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4620502148211960932, guid: 2b414851e164946af8d4e2e9ccf49733, type: 3}
+      propertyPath: m_text
+      value: LOSE
       objectReference: {fileID: 0}
     - target: {fileID: 6529065152570006213, guid: 2b414851e164946af8d4e2e9ccf49733, type: 3}
       propertyPath: m_Color.a
