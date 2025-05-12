@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Chip;
 using GridSystem;
-using LinkSystem.Conditions;
 using UnityEngine;
 
 namespace LinkSystem.Validator
@@ -11,66 +8,67 @@ namespace LinkSystem.Validator
     public class LinkValidator : ILinkValidator
     {
         private readonly int _minLinkLength;
-        private readonly List<LinkCondition> _conditions;
-        private readonly Vector2Int[] _neighborDirectionsToCheck;
+        private readonly Vector2Int[] _directionsToCheck;
 
-        public LinkValidator(List<LinkCondition> conditions, int minLinkLength, Vector2Int[] directions)
+        public LinkValidator(int minLinkLength, Vector2Int[] directions)
         {
-            _conditions = conditions;
             _minLinkLength = minLinkLength;
-            _neighborDirectionsToCheck = directions;
+            _directionsToCheck = directions;
         }
 
         public bool IsLinkExist(Grid2D grid2D)
         {
-            return HasChainOfLenght(grid2D, _minLinkLength); 
+            return HasChainOfLength(grid2D.Cells, _minLinkLength); 
         }
         
         private Grid2D _grid2D;
-        private bool HasChainOfLenght(Grid2D grid2D, int minLinkLength)
+        public bool HasChainOfLength(Cell[,] matrix, int minLength)
         {
-            _grid2D = grid2D;
-            bool [,] visited = new bool[grid2D.Width, grid2D.Height];
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            bool[,] visited = new bool[rows, cols];
+            int maxLength = 0;
 
-            for (int i = 0; i < grid2D.Width; i++)
+            for (int x = 0; x < rows; x++)
             {
-                for (int j = 0; j < grid2D.Height; j++)
+                for (int y = 0; y < cols; y++)
                 {
-                    visited[i, j] = true;
-                    int length = DFS(i, j, grid2D.Cells[i, j].ChipEntity.Type, visited);
-                    if (length >= minLinkLength)
+                    Array.Clear(visited, 0, visited.Length);
+                    visited[x, y] = true;
+                    int length = DFS(matrix, visited, x, y, matrix[x, y].ChipEntity.Type);
+                    maxLength = Math.Max(maxLength, length);
+                    if (maxLength >= minLength)
                         return true;
-                    visited[i, j] = false;
                 }
             }
-            return false; 
+
+            return false;
         }
-        
-        private int DFS(int x, int y, ChipType targetChipType, bool[,] visited)
+
+        private int DFS(Cell[,] matrix, bool[,] visited, int x, int y, ChipType target)
         {
-            int length = 1;
-            int[] dx = { -1, 1, 0, 0 };
-            int[] dy = { 0, 0, -1, 1 };
+            int maxLen = 1;
 
-            for (int dir = 0; dir < 4; dir++)
+            foreach (var dir in _directionsToCheck)
             {
-                int nx = x + dx[dir];
-                int ny = y + dy[dir];
+                int nx = x + dir.x;
+                int ny = y + dir.y;
 
-                if (IsValid(nx, ny) && !visited[nx, ny] && _grid2D.Cells[nx, ny].ChipEntity.Type == targetChipType)
+                if (IsValid(matrix, nx, ny) && !visited[nx, ny] && matrix[nx, ny].ChipEntity.Type == target)
                 {
                     visited[nx, ny] = true;
-                    length = Math.Max(length, 1 + DFS(nx, ny, targetChipType, visited));
+                    int len = 1 + DFS(matrix, visited, nx, ny, target);
                     visited[nx, ny] = false;
+                    maxLen = Math.Max(maxLen, len);
                 }
             }
 
-            return length;
+            return maxLen;
         }
-        
-        private bool IsValid(int x, int y)
+
+        private bool IsValid(Cell[,] matrix, int x, int y)
         {
-            return x >= 0 && x < _grid2D.Width && y >= 0 && y < _grid2D.Height;
+            return x >= 0 && x < matrix.GetLength(0) && y >= 0 && y < matrix.GetLength(1);
         }
     }
 }

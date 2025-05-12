@@ -37,7 +37,7 @@ namespace GridSystem.GridProcess.Shuffle
             var neighbourCondition = _conditions.OfType<LinkNeighbourCondition>().FirstOrDefault();
             _neighborDirectionsToCheck =
                 neighbourCondition?.Directions ?? linkSettings.DefaultAnyNeighbourCondition.Directions;
-            _linkValidator = new LinkValidator(_conditions, _minLinkLength, _neighborDirectionsToCheck);
+            _linkValidator = new LinkValidator(_minLinkLength, _neighborDirectionsToCheck);
         }
 
         public override async UniTask HandleAsync()
@@ -45,10 +45,15 @@ namespace GridSystem.GridProcess.Shuffle
             await UniTask.Yield();
             
             int shuffleCount = 0;
-            // TODO add max shuffle count
+            
             while (!_linkValidator.IsLinkExist(_gridController.Grid))
             {
                 shuffleCount++;
+                if (shuffleCount > 100)
+                {
+                    // TODO add refill chips
+                    break;
+                }
                 Shuffle();
             }
 
