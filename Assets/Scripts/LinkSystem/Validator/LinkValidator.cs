@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Chip;
 using GridSystem;
 using LinkSystem.Conditions;
 using UnityEngine;
@@ -21,75 +23,54 @@ namespace LinkSystem.Validator
 
         public bool IsLinkExist(Grid2D grid2D)
         {
-            int width = grid2D.Width;
-            int height = grid2D.Height;
-
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    var position = new Vector2Int(x, y);
-                    var linkables = GetLinkChain(grid2D, position);
-
-                    if (linkables.Count >= _minLinkLength)
-                    {
-                        // string linkablePositions = string.Join(", ", linkables.Select(l => l.CellPos));
-                        // Debug.Log($"Link found: {linkablePositions}");
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return HasChainOfLenght(grid2D, _minLinkLength); 
         }
-
-        private List<ILinkable> GetLinkChain(Grid2D grid, Vector2Int startCoordinate)
+        
+        private Grid2D _grid2D;
+        private bool HasChainOfLenght(Grid2D grid2D, int minLinkLength)
         {
-            var result = new List<ILinkable>();
-            var visited = new HashSet<Vector2Int>();
+            _grid2D = grid2D;
+            bool [,] visited = new bool[grid2D.Width, grid2D.Height];
 
-            if (!grid.TryGetCell(startCoordinate.x, startCoordinate.y, out var startCell) ||
-                !startCell.IsOccupied || startCell.ChipEntity is not ILinkable startLinkable)
-                return result;
-
-            bool IsValidLink(Vector2Int from, Vector2Int to, out ILinkable toLinkable)
+            for (int i = 0; i < grid2D.Width; i++)
             {
-                toLinkable = null;
-                if (!grid.TryGetCell(to.x, to.y, out var cell)) return false;
-                if (!cell.IsOccupied || cell.ChipEntity is not ILinkable nextLinkable) return false;
-                if (!_conditions.All(c => c.AreMet(grid.GetCell(from).ChipEntity as ILinkable, nextLinkable))) return false;
-                toLinkable = nextLinkable;
-                return true;
-            }
-
-            bool DFS(Vector2Int current, Vector2Int? previous)
-            {
-                visited.Add(current);
-                var currentLinkable = grid.GetCell(current).ChipEntity as ILinkable;
-                result.Add(currentLinkable);
-
-                int validNeighborCount = 0;
-                foreach (var dir in _neighborDirectionsToCheck)
+                for (int j = 0; j < grid2D.Height; j++)
                 {
-                    var next = current + dir;
-                    if (previous.HasValue && next == previous.Value) continue;
-                    if (visited.Contains(next)) continue;
-
-                    if (IsValidLink(current, next, out var _))
-                    {
-                        validNeighborCount++;
-                        if (validNeighborCount > 1) return false; // branching
-                        if (!DFS(next, current)) return false;
-                    }
+                    visited[i, j] = true;
+                    int length = DFS(i, j, grid2D.Cells[i, j].ChipEntity.Type, visited);
+                    if (length >= minLinkLength)
+                        return true;
+                    visited[i, j] = false;
                 }
+            }
+            return false; 
+        }
+        
+        private int DFS(int x, int y, ChipType targetChipType, bool[,] visited)
+        {
+            int length = 1;
+            int[] dx = { -1, 1, 0, 0 };
+            int[] dy = { 0, 0, -1, 1 };
 
-                return true;
+            for (int dir = 0; dir < 4; dir++)
+            {
+                int nx = x + dx[dir];
+                int ny = y + dy[dir];
+
+                if (IsValid(nx, ny) && !visited[nx, ny] && _grid2D.Cells[nx, ny].ChipEntity.Type == targetChipType)
+                {
+                    visited[nx, ny] = true;
+                    length = Math.Max(length, 1 + DFS(nx, ny, targetChipType, visited));
+                    visited[nx, ny] = false;
+                }
             }
 
-            if (!DFS(startCoordinate, null) || result.Count < _minLinkLength)
-                return new List<ILinkable>();
-
-            return result;
+            return length;
+        }
+        
+        private bool IsValid(int x, int y)
+        {
+            return x >= 0 && x < _grid2D.Width && y >= 0 && y < _grid2D.Height;
         }
     }
 }

@@ -16,4 +16,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1cc5bd99965654d269b6f1e8fe42a3a0, type: 2}
   - {fileID: 11400000, guid: 72255a43457e2451dad4759a7384bbac, type: 2}
   <DefaultAnyNeighbourCondition>k__BackingField: {fileID: 11400000, guid: 889a864ede00b4bbca6de5330fd42f1f, type: 2}
-  <MinLinkLength>k__BackingField: 3
+  <MinLinkLength>k__BackingField: 4

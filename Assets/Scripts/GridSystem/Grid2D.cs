@@ -13,6 +13,7 @@ namespace GridSystem
         public Vector3 Origin { get; private set; }
 
         private Cell[,] _cells;
+        public Cell[,] Cells => _cells;
 
         private readonly CoordinateConverter _coordinateConverter;
 

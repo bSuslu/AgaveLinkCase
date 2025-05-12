@@ -194,6 +194,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settingsProvider: {fileID: 1238206832}
+--- !u!1 &144272228
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 144272229}
+  m_Layer: 0
+  m_Name: Unity-RecorderSessions
+  m_TagString: EditorOnly
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &144272229
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 144272228}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1958225946}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &239291041
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +707,37 @@ MonoBehaviour:
   <UserLevelConfigLimitationSettings>k__BackingField: {fileID: 11400000, guid: accbc487940644992a9a9574e847e14d, type: 2}
   <LinkSettings>k__BackingField: {fileID: 11400000, guid: e8ebd881eb46841c9a05934acaa5e6fd, type: 2}
   <VisualSettings>k__BackingField: {fileID: 11400000, guid: b7b31e85b99204e54bf895ee919b89fd, type: 2}
+--- !u!1 &1958225945
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1958225946}
+  m_Layer: 0
+  m_Name: 69f6cecb-749f-4f48-b2a5-14301f296efc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1958225946
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958225945}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 144272229}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2082637482
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,3 +824,4 @@ SceneRoots:
   - {fileID: 55851016}
   - {fileID: 1163232802}
   - {fileID: 645274410}
+  - {fileID: 144272229}
